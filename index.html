@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Atelier Dawat — Luxury Digital Invitation Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Aref+Ruqaa:wght@400;700&family=Amiri:ital@0;1&family=Cairo:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --void:#0a0908;
+    --card:#131110;
+    --card-2:#19160f;
+    --panel:#100e0c;
+    --gold:#D4AF37;
+    --gold-soft:#ecd88f;
+    --gold-deep:#8c6d1f;
+    --gold-line:rgba(212,175,55,0.28);
+    --ivory:#f3ecda;
+    --muted:#96907c;
+    --muted-dim:#5f5a4c;
+    --err:#c7623e;
+    --burgundy:#241110;
+
+    --font-display:'Playfair Display', serif;
+    --font-script:'Cormorant Garamond', serif;
+    --font-ar-display:'Aref Ruqaa', serif;
+    --font-ar-alt:'Amiri', serif;
+    --font-ar-body:'Cairo', sans-serif;
+    --font-ui:'Jost', sans-serif;
+
+    --radius:2px;
+    --shadow-card: 0 30px 80px -20px rgba(0,0,0,0.65);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(212,175,55,0.06), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(212,175,55,0.05), transparent 55%),
+      var(--void);
+    color:var(--ivory);
+    font-family:var(--font-ui);
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
+  }
+  body[dir="rtl"]{ font-family:var(--font-ar-body); }
+
+  ::selection{ background:var(--gold); color:#141210; }
+
+  a{ color:inherit; }
+  button{ font-family:inherit; cursor:pointer; }
+  input, select, textarea{ font-family:inherit; }
+
+  /* thin gold scrollbar */
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-track{ background:var(--void); }
+  ::-webkit-scrollbar-thumb{ background:var(--gold-deep); border-radius:4px; }
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px clamp(18px,4vw,48px);
+    border-bottom:1px solid var(--gold-line);
+    background:linear-gradient(180deg, rgba(212,175,55,0.04), transparent);
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-mark{
+    width:34px; height:34px; border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); color:var(--gold); font-size:16px;
+    transform:rotate(45deg); flex:none;
+  }
+  .brand-mark span{ transform:rotate(-45deg); }
+  .brand-name{ font-family:var(--font-display); letter-spacing:0.12em; font-size:15px; color:var(--ivory); }
+  .brand-sub{ font-family:var(--font-ui); font-size:10.5px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; margin-top:2px; }
+
+  .lang-switch{ display:flex; gap:6px; }
+  .lang-switch button{
+    background:transparent; border:1px solid var(--gold-line); color:var(--muted);
+    padding:7px 12px; font-size:11.5px; letter-spacing:0.08em; border-radius:var(--radius);
+    transition:all .2s;
+  }
+  .lang-switch button.active, .lang-switch button:hover{ color:var(--gold); border-color:var(--gold); }
+
+  /* ============ LAYOUT ============ */
+  #builderView{ padding:clamp(18px,4vw,48px); }
+  .app-grid{
+    display:grid; grid-template-columns:minmax(320px,460px) 1fr;
+    gap:clamp(20px,3vw,40px);
+    max-width:1400px; margin:0 auto;
+    align-items:start;
+  }
+  @media (max-width:980px){
+    .app-grid{ grid-template-columns:1fr; }
+  }
+
+  .hero-line{
+    max-width:1400px; margin:0 auto 28px; padding:0 clamp(18px,4vw,48px);
+  }
+  .hero-line h1{
+    font-family:var(--font-display); font-weight:500; font-size:clamp(26px,3.4vw,40px);
+    margin:0 0 8px; letter-spacing:0.01em;
+  }
+  .hero-line h1 em{ font-style:italic; color:var(--gold); font-family:var(--font-script); font-size:1.12em; }
+  .hero-line p{ margin:0; color:var(--muted); font-size:14px; max-width:640px; line-height:1.7; }
+
+  /* ============ FORM PANEL ============ */
+  .panel{
+    background:linear-gradient(180deg, var(--card), var(--panel));
+    border:1px solid var(--gold-line);
+    border-radius:var(--radius);
+    padding:clamp(20px,3vw,32px);
+  }
+  .section-block{ margin-bottom:30px; }
+  .section-block:last-child{ margin-bottom:0; }
+  .section-label{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-display); font-style:italic; font-size:13px;
+    color:var(--gold-soft); letter-spacing:0.03em; margin-bottom:16px;
+  }
+  .section-label::after{ content:""; flex:1; height:1px; background:var(--gold-line); }
+
+  .field{ margin-bottom:14px; }
+  .field label{
+    display:block; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:420px){ .field-row{ grid-template-columns:1fr; } }
+
+  .field input[type=text], .field input[type=url], .field input[type=tel],
+  .field input[type=datetime-local], .field select, .field textarea{
+    width:100%; background:var(--void); border:1px solid rgba(212,175,55,0.22);
+    color:var(--ivory); padding:11px 12px; border-radius:var(--radius);
+    font-size:14px; outline:none; transition:border-color .2s, box-shadow .2s;
+  }
+  .field textarea{ resize:vertical; min-height:64px; font-family:inherit; }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.12);
+  }
+  .field input.invalid{ border-color:var(--err); }
+  .field-error{ font-size:11px; color:var(--err); margin-top:5px; display:none; }
+  .field-error.show{ display:block; }
+
+  .field select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0L5 6L10 0' fill='none' stroke='%23D4AF37' stroke-width='1.3'/></svg>");
+    background-repeat:no-repeat; background-position: left 12px center;
+    padding-left:30px;
+  }
+  body[dir="rtl"] .field select{ background-position: right 12px center; padding-left:12px; padding-right:30px; }
+
+  .template-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .template-card{
+    border:1px solid var(--gold-line); border-radius:var(--radius); padding:14px 12px;
+    cursor:pointer; transition:all .2s; background:var(--void);
+  }
+  .template-card:hover{ border-color:var(--gold); }
+  .template-card.active{ border-color:var(--gold); background:rgba(212,175,55,0.08); box-shadow:0 0 0 1px var(--gold) inset; }
+  .template-card .tname{ font-family:var(--font-script); font-style:italic; font-size:17px; color:var(--ivory); }
+  .template-card .tdesc{ font-size:10.5px; color:var(--muted); margin-top:4px; letter-spacing:0.03em; }
+  .template-swatch{ display:flex; gap:4px; margin-top:10px; }
+  .template-swatch i{ width:14px; height:14px; border-radius:50%; display:block; }
+
+  .pill-group{ display:flex; gap:10px; flex-wrap:wrap; }
+  .pill{
+    border:1px solid var(--gold-line); padding:9px 16px; border-radius:20px;
+    font-size:12.5px; color:var(--muted); transition:all .2s; background:transparent;
+  }
+  .pill.active{ border-color:var(--gold); color:var(--gold); background:rgba(212,175,55,0.08); }
+
+  .toggle-list{ display:flex; flex-direction:column; gap:10px; }
+  .toggle-row{
+    display:flex; align-items:center; justify-content:space-between;
+    border:1px solid rgba(212,175,55,0.15); border-radius:var(--radius);
+    padding:11px 14px; background:var(--void);
+  }
+  .toggle-row .trow-label{ font-size:13px; color:var(--ivory); }
+  .toggle-row .trow-sub{ font-size:10.5px; color:var(--muted-dim); margin-top:2px; }
+  .switch{ position:relative; width:38px; height:21px; flex:none; }
+  .switch input{ opacity:0; width:0; height:0; position:absolute; }
+  .switch .track{ position:absolute; inset:0; background:#2c2822; border-radius:20px; transition:.2s; border:1px solid var(--gold-line); }
+  .switch .knob{ position:absolute; top:2px; left:2px; width:15px; height:15px; background:var(--muted); border-radius:50%; transition:.2s; }
+  .switch input:checked + .track{ background:rgba(212,175,55,0.25); border-color:var(--gold); }
+  .switch input:checked + .track .knob{ transform:translateX(17px); background:var(--gold); }
+  body[dir="rtl"] .switch input:checked + .track .knob{ transform:translateX(-17px); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 22px; border-radius:var(--radius); border:1px solid var(--gold);
+    font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;
+    transition:all .2s;
+  }
+  .btn-gold{ background:var(--gold); color:#171310; }
+  .btn-gold:hover{ background:var(--gold-soft); }
+  .btn-ghost{ background:transparent; color:var(--gold); }
+  .btn-ghost:hover{ background:rgba(212,175,55,0.1); }
+  .btn-block{ width:100%; }
+
+  .generate-box{ margin-top:8px; }
+  .share-result{
+    margin-top:16px; border:1px solid var(--gold-line); border-radius:var(--radius);
+    padding:16px; background:var(--void); display:none;
+  }
+  .share-result.show{ display:block; }
+  .share-result .sr-label{ font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
+  .share-row{ display:flex; gap:8px; }
+  .share-row input{ flex:1; background:var(--card-2); border:1px solid var(--gold-line); color:var(--gold-soft);
+    padding:10px 12px; border-radius:var(--radius); font-size:12px; }
+  .share-row button{ border:1px solid var(--gold-line); background:transparent; color:var(--gold); padding:0 14px; border-radius:var(--radius); font-size:12px; }
+  .share-row button:hover{ border-color:var(--gold); background:rgba(212,175,55,.08); }
+  .share-actions{ display:flex; gap:10px; margin-top:12px; }
+
+  /* ============ PREVIEW ============ */
+  .preview-col{ position:sticky; top:20px; }
+  @media (max-width:980px){ .preview-col{ position:static; } }
+  .preview-frame-label{
+    text-align:center; font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:14px;
+  }
+  .phone{
+    max-width:380px; margin:0 auto; border:10px solid #05100 ;
+    border:10px solid #050403; border-radius:36px; background:#050403;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.2);
+    overflow:hidden; position:relative;
+  }
+  .phone::before{
+    content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:22px; background:#050403; border-radius:0 0 14px 14px; z-index:5;
+  }
+  .phone-screen{ min-height:640px; position:relative; overflow:hidden; background:var(--void); }
+
+  /* ===== invitation stage (shared by preview + full) ===== */
+  .stage{ position:relative; width:100%; min-height:640px; display:flex; align-items:center; justify-content:center; padding:26px; }
+  .stage-full{ min-height:100vh; }
+
+  /* Envelope */
+  .envelope-wrap{ perspective:1400px; width:100%; max-width:300px; }
+  .envelope{
+    position:relative; width:100%; aspect-ratio:3/2; cursor:pointer;
+    background:linear-gradient(160deg,#1b1611,#0d0b08);
+    border:1px solid var(--gold-line); border-radius:3px;
+    box-shadow:var(--shadow-card);
+  }
+  .envelope .flap{
+    position:absolute; top:0; left:0; width:100%; height:62%;
+    background:linear-gradient(160deg,#231c14,#120f0a);
+    clip-path:polygon(0 0,100% 0,50% 78%);
+    border:1px solid var(--gold-line); border-top:none;
+    transform-origin:top center; transition:transform 1s cubic-bezier(.6,.1,.2,1);
+    z-index:3;
+  }
+  .envelope .card-peek{
+    position:absolute; left:6%; right:6%; bottom:6%; top:16%;
+    background:linear-gradient(180deg,#f3ecda,#e9dfc2);
+    border-radius:2px; box-shadow:0 -10px 20px rgba(0,0,0,0.3);
+    z-index:1; transition:transform 1s cubic-bezier(.6,.1,.2,1) .1s;
+  }
+  .seal{
+    position:absolute; top:50%; left:50%; width:58px; height:58px; border-radius:50%;
+    transform:translate(-50%,-40%); z-index:4;
+    background:radial-gradient(circle at 35% 30%, #c8863f, #7c2d22 70%);
+    box-shadow:0 6px 14px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-script); font-style:italic; color:#f3ecda; font-size:17px;
+    transition:transform .7s ease, opacity .7s ease;
+  }
+  .envelope-hint{
+    position:absolute; bottom:-34px; left:0; right:0; text-align:center;
+    font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);
+  }
+  .envelope-wrap.open .flap{ transform:rotateX(180deg); }
+  .envelope-wrap.open .seal{ opacity:0; transform:translate(-50%,-40%) scale(0.4) rotate(25deg); }
+  .envelope-wrap.open .card-peek{ transform:translateY(-130%) scale(1.02); }
+
+  .particles{ position:absolute; inset:0; pointer-events:none; overflow:visible; z-index:6; }
+  .particle{
+    position:absolute; width:4px; height:4px; background:var(--gold); border-radius:50%;
+    opacity:0; animation:pfloat 1.3s ease-out forwards;
+  }
+  @keyframes pfloat{
+    0%{ opacity:0; transform:translate(0,0) scale(0.5);}
+    15%{ opacity:1;}
+    100%{ opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.1);}
+  }
+
+  /* Invitation card content */
+  .invite-card{
+    width:100%; max-width:340px; margin:0 auto; text-align:center;
+    background:linear-gradient(180deg,#171310,#100e0b);
+    border:1px solid var(--gold-line); position:relative;
+    padding:34px 22px 26px; opacity:0; transform:translateY(16px);
+    transition:opacity .8s ease .4s, transform .8s ease .4s;
+  }
+  .stage.revealed .invite-card{ opacity:1; transform:translateY(0); }
+  .stage:not(.has-envelope) .invite-card{ opacity:1; transform:none; transition:none; }
+
+  .invite-card::before, .invite-card::after{
+    content:""; position:absolute; width:26px; height:26px; border:1px solid var(--gold);
+    opacity:.7;
+  }
+  .invite-card::before{ top:8px; left:8px; border-right:none; border-bottom:none; }
+  .invite-card::after{ bottom:8px; right:8px; border-left:none; border-top:none; }
+
+  .ic-eyebrow{ font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .ic-names{ font-family:var(--font-script); font-style:italic; font-size:30px; line-height:1.25; color:var(--ivory); margin:0 0 4px; }
+  .ic-names .amp{ display:block; font-family:var(--font-display); font-style:normal; color:var(--gold); font-size:14px; letter-spacing:0.3em; margin:8px 0; }
+  .ic-names-ar{ font-family:var(--font-ar-display); font-size:26px; color:var(--ivory); margin:6px 0 0; line-height:1.5; }
+  .ic-divider{ width:46px; height:1px; background:var(--gold); margin:18px auto; }
+  .ic-sub{ font-size:12px; color:var(--muted); letter-spacing:0.04em; line-height:1.8; margin-bottom:4px; }
+  .ic-venue{ font-family:var(--font-display); font-style:italic; font-size:16px; color:var(--gold-soft); margin-top:8px; }
+  .ic-date{ font-size:12.5px; color:var(--ivory); margin-top:6px; letter-spacing:0.03em; }
+
+  .ic-section{ margin-top:24px; text-align:start; }
+  .ic-section-title{
+    font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold);
+    margin-bottom:10px; text-align:center;
+  }
+  .ic-count{ display:flex; justify-content:center; gap:10px; margin-top:6px; }
+  .ic-count .cbox{ text-align:center; }
+  .ic-count .cnum{ font-family:var(--font-display); font-size:19px; color:var(--ivory); display:block; }
+  .ic-count .clabel{ font-size:8.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+
+  .ic-schedule{ display:flex; flex-direction:column; gap:8px; }
+  .ic-sched-row{ display:flex; justify-content:space-between; font-size:12px; border-bottom:1px dashed rgba(212,175,55,0.2); padding-bottom:6px; }
+  .ic-sched-row .lbl{ color:var(--gold-soft); }
+  .ic-sched-row .val{ color:var(--muted); }
+
+  .ic-text{ font-size:12px; color:var(--muted); line-height:1.8; text-align:center; }
+
+  .ic-btn{
+    display:block; width:100%; text-align:center; margin-top:10px; padding:11px;
+    border:1px solid var(--gold); color:var(--gold); font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase; text-decoration:none; border-radius:2px; background:transparent; transition:.2s;
+  }
+  .ic-btn:hover{ background:rgba(212,175,55,.1); }
+  .ic-btn.solid{ background:var(--gold); color:#171310; }
+  .ic-btn.solid:hover{ background:var(--gold-soft); }
+
+  .ic-footer{ margin-top:26px; font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted-dim); }
+
+  /* Template variants */
+  .tpl-blossom .invite-card{ background:linear-gradient(180deg,#221513,#140d0c); border-color:rgba(212,175,55,0.3); }
+  .tpl-blossom .ic-eyebrow{ color:#dba463; }
+  .tpl-blossom .invite-card::before, .tpl-blossom .invite-card::after{ border-color:#dba463; }
+  .tpl-viktor .invite-card{ background:linear-gradient(180deg,#121214,#0b0b0d); }
+  .tpl-viktor .ic-names{ font-family:var(--font-display); font-style:normal; letter-spacing:0.02em; }
+  .tpl-viktor .invite-card{ border-width:1px; }
+
+  /* RSVP mini form (full mode) */
+  .rsvp-name{ width:100%; background:var(--void); border:1px solid var(--gold-line); color:var(--ivory);
+    padding:10px 12px; border-radius:2px; font-size:12.5px; margin-bottom:8px; text-align:center; }
+
+  /* ============ FULL INVITATION VIEW ============ */
+  #inviteView{ display:none; min-height:100vh; background:var(--void); }
+  #inviteView .stage{ min-height:100vh; padding:40px 18px; }
+  .back-to-builder{
+    position:fixed; top:16px; inset-inline-start:16px; z-index:50;
+    font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);
+    border:1px solid var(--gold-line); padding:8px 14px; border-radius:20px; background:rgba(10,9,8,0.7);
+    text-decoration:none; backdrop-filter:blur(6px);
+  }
+  .back-to-builder:hover{ color:var(--gold); border-color:var(--gold); }
+
+  @media (max-width:480px){
+    .ic-names{ font-size:26px; }
+    .invite-card{ padding:28px 16px 22px; }
+  }
+
+  .footer-note{
+    max-width:1400px; margin:40px auto 0; padding:0 clamp(18px,4vw,48px) 40px;
+    color:var(--muted-dim); font-size:11px; text-align:center; letter-spacing:0.03em;
+  }
+</style>
+</head>
+<body dir="rtl">
+
+<!-- ============ BUILDER VIEW ============ -->
+<div id="builderView">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark"><span>D</span></div>
+      <div>
+        <div class="brand-name">ATELIER DAWAT</div>
+        <div class="brand-sub" data-i18n="brandSub">Digital Invitation Studio</div>
+      </div>
+    </div>
+    <div class="lang-switch">
+      <button data-uilang="ar" class="active">AR</button>
+      <button data-uilang="en">EN</button>
+      <button data-uilang="fr">FR</button>
+    </div>
+  </div>
+
+  <div class="hero-line">
+    <h1 data-i18n="heroTitle">صمّم دعوتك <em>الرقمية</em> الفاخرة</h1>
+    <p data-i18n="heroSub">أدخل تفاصيل مناسبتكم في اللوحة التالية، وشاهد المعاينة الحيّة تتحدث فوراً، ثم أنشئ رابطاً أنيقاً لمشاركته مع ضيوفكم.</p>
+  </div>
+
+  <div class="app-grid">
+    <!-- FORM -->
+    <form class="panel" id="builderForm" novalidate>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secTemplate">القالب</div>
+        <div class="template-grid">
+          <div class="template-card active" data-template="blossom">
+            <div class="tname">Blossom &amp; Oud</div>
+            <div class="tdesc" data-i18n="tplBlossomDesc">دافئ، زخرفي، عبق شرقي</div>
+            <div class="template-swatch"><i style="background:#8c6d1f"></i><i style="background:#241110"></i><i style="background:#dba463"></i></div>
+          </div>
+          <div class="template-card" data-template="viktor">
+            <div class="tname">Viktor &amp; Paula</div>
+            <div class="tdesc" data-i18n="tplViktorDesc">هندسي، عصري، أنيق</div>
+            <div class="template-swatch"><i style="background:#D4AF37"></i><i style="background:#0b0b0d"></i><i style="background:#f3ecda"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secEventType">نوع المناسبة</div>
+        <div class="pill-group" id="eventTypeGroup">
+          <button type="button" class="pill active" data-event="wedding" data-i18n="eventWedding">فرح (زفاف)</button>
+          <button type="button" class="pill" data-event="engagement" data-i18n="eventEngagement">خطوبة</button>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secLang">لغة الدعوة</div>
+        <div class="pill-group" id="inviteLangGroup">
+          <button type="button" class="pill active" data-lang="ar">العربية</button>
+          <button type="button" class="pill" data-lang="en">English</button>
+          <button type="button" class="pill" data-lang="fr">Français</button>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secNames">أسماء العروسين</div>
+        <div class="field-row">
+          <div class="field">
+            <label data-i18n="brideLatinLbl">اسم العروس (Latin)</label>
+            <input type="text" id="brideLatin" placeholder="Amira">
+          </div>
+          <div class="field">
+            <label data-i18n="brideArLbl">اسم العروس (عربي)</label>
+            <input type="text" id="brideAr" placeholder="أميرة">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label data-i18n="groomLatinLbl">اسم العريس (Latin)</label>
+            <input type="text" id="groomLatin" placeholder="Karim">
+          </div>
+          <div class="field">
+            <label data-i18n="groomArLbl">اسم العريس (عربي)</label>
+            <input type="text" id="groomAr" placeholder="كريم">
+          </div>
+        </div>
+        <div class="field-error" id="err-names" data-i18n="errNames">الرجاء إدخال اسم العروس والعريس على الأقل باللغة اللاتينية.</div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secVenue">المكان والتاريخ</div>
+        <div class="field">
+          <label data-i18n="venueLbl">اسم القاعة / المكان</label>
+          <input type="text" id="venue" placeholder="Villa Zephyra">
+        </div>
+        <div class="field">
+          <label data-i18n="cityLbl">المدينة / البلد</label>
+          <input type="text" id="city" placeholder="الجزائر العاصمة، الجزائر">
+        </div>
+        <div class="field-error" id="err-venue" data-i18n="errVenue">الرجاء إدخال اسم القاعة.</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label data-i18n="ceremonyLbl">العقد / المراسم</label>
+            <input type="datetime-local" id="ceremony">
+          </div>
+          <div class="field">
+            <label data-i18n="receptionLbl">الاستقبال</label>
+            <input type="datetime-local" id="reception">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label data-i18n="dinnerLbl">العشاء</label>
+            <input type="datetime-local" id="dinner">
+          </div>
+          <div class="field">
+            <label data-i18n="partyLbl">السهرة</label>
+            <input type="datetime-local" id="party">
+          </div>
+        </div>
+        <div class="field-error" id="err-date" data-i18n="errDate">الرجاء إدخال موعد واحد على الأقل.</div>
+
+        <div class="field">
+          <label data-i18n="mapUrlLbl">رابط الموقع على خرائط جوجل (اختياري)</label>
+          <input type="url" id="mapUrl" placeholder="https://maps.app.goo.gl/...">
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label" data-i18n="secSections">أقسام الدعوة</div>
+        <div class="toggle-list">
+          <label class="toggle-row">
+            <span><span class="trow-label" data-i18n="toggleCountdown">العدّ التنازلي</span><br><span class="trow-sub" data-i18n="toggleCountdownSub">إحصاء تنازلي مباشر حتى الموعد</span></span>
+            <span class="switch"><input type="checkbox" id="toggleCountdown" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <span><span class="trow-label" data-i18n="toggleSchedule">جدول الأوقات</span><br><span class="trow-sub" data-i18n="toggleScheduleSub">عرض توقيت كل فقرة من الحفل</span></span>
+            <span class="switch"><input type="checkbox" id="toggleSchedule" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <span><span class="trow-label" data-i18n="toggleDress">الزي المقترح</span><br><span class="trow-sub" data-i18n="toggleDressSub">إرشاد الضيوف حول اللباس</span></span>
+            <span class="switch"><input type="checkbox" id="toggleDress" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <span><span class="trow-label" data-i18n="toggleRsvp">تأكيد الحضور</span><br><span class="trow-sub" data-i18n="toggleRsvpSub">زر تأكيد عبر واتساب</span></span>
+            <span class="switch"><input type="checkbox" id="toggleRsvp" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <span><span class="trow-label" data-i18n="toggleMap">خريطة الموقع</span><br><span class="trow-sub" data-i18n="toggleMapSub">زر التوجّه عبر خرائط جوجل</span></span>
+            <span class="switch"><input type="checkbox" id="toggleMap"><span class="track"><span class="knob"></span></span></span>
+          </label>
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+          <label data-i18n="dressCodeLbl">وصف الزي المقترح</label>
+          <textarea id="dressCode" placeholder="أناقة رسمية — درجات الذهبي والبيج"></textarea>
+        </div>
+        <div class="field">
+          <label data-i18n="rsvpPhoneLbl">رقم واتساب لتأكيد الحضور</label>
+          <input type="tel" id="rsvpPhone" placeholder="+213 555 000 000">
+        </div>
+      </div>
+
+      <div class="section-block generate-box">
+        <button type="submit" class="btn btn-gold btn-block" id="generateBtn" data-i18n="generateBtn">إنشاء الدعوة</button>
+
+        <div class="share-result" id="shareResult">
+          <div class="sr-label" data-i18n="shareLabel">رابط الدعوة القابل للمشاركة</div>
+          <div class="share-row">
+            <input type="text" id="shareLink" readonly>
+            <button type="button" id="copyLinkBtn" data-i18n="copyBtn">نسخ</button>
+          </div>
+          <div class="share-actions">
+            <a href="#" target="_blank" class="btn btn-ghost" style="flex:1;" id="openPreviewBtn" data-i18n="openPreviewBtn">فتح المعاينة الكاملة</a>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- LIVE PREVIEW -->
+    <div class="preview-col">
+      <div class="preview-frame-label" data-i18n="previewLabel">معاينة حيّة — بحجم الهاتف</div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="stage has-envelope" id="previewStage"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note" data-i18n="footerNote">Atelier Dawat — تُنشأ الدعوة بالكامل داخل متصفحك، ولا تُخزَّن بياناتكم على أي خادم.</div>
+</div>
+
+<!-- ============ FULL INVITATION VIEW ============ -->
+<div id="inviteView">
+  <a href="javascript:void(0)" class="back-to-builder" id="backToBuilder" data-i18n="backBtn">✕ العودة للمصمم</a>
+  <div class="stage stage-full has-envelope" id="fullStage"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ===================== I18N (UI chrome) ===================== */
+  const UI = {
+    ar:{ brandSub:"استوديو الدعوات الرقمية", heroTitle:'صمّم دعوتك <em>الرقمية</em> الفاخرة',
+      heroSub:"أدخل تفاصيل مناسبتكم في اللوحة التالية، وشاهد المعاينة الحيّة تتحدث فوراً، ثم أنشئ رابطاً أنيقاً لمشاركته مع ضيوفكم.",
+      secTemplate:"القالب", tplBlossomDesc:"دافئ، زخرفي، عبق شرقي", tplViktorDesc:"هندسي، عصري، أنيق",
+      secEventType:"نوع المناسبة", eventWedding:"فرح (زفاف)", eventEngagement:"خطوبة",
+      secLang:"لغة الدعوة", secNames:"أسماء العروسين",
+      brideLatinLbl:"اسم العروس (Latin)", brideArLbl:"اسم العروس (عربي)",
+      groomLatinLbl:"اسم العريس (Latin)", groomArLbl:"اسم العريس (عربي)",
+      errNames:"الرجاء إدخال اسم العروس والعريس على الأقل باللغة اللاتينية.",
+      secVenue:"المكان والتاريخ", venueLbl:"اسم القاعة / المكان", cityLbl:"المدينة / البلد",
+      errVenue:"الرجاء إدخال اسم القاعة.",
+      ceremonyLbl:"العقد / المراسم", receptionLbl:"الاستقبال", dinnerLbl:"العشاء", partyLbl:"السهرة",
+      errDate:"الرجاء إدخال موعد واحد على الأقل.",
+      mapUrlLbl:"رابط الموقع على خرائط جوجل (اختياري)",
+      secSections:"أقسام الدعوة",
+      toggleCountdown:"العدّ التنازلي", toggleCountdownSub:"إحصاء تنازلي مباشر حتى الموعد",
+      toggleSchedule:"جدول الأوقات", toggleScheduleSub:"عرض توقيت كل فقرة من الحفل",
+      toggleDress:"الزي المقترح", toggleDressSub:"إرشاد الضيوف حول اللباس",
+      toggleRsvp:"تأكيد الحضور", toggleRsvpSub:"زر تأكيد عبر واتساب",
+      toggleMap:"خريطة الموقع", toggleMapSub:"زر التوجّه عبر خرائط جوجل",
+      dressCodeLbl:"وصف الزي المقترح", rsvpPhoneLbl:"رقم واتساب لتأكيد الحضور",
+      generateBtn:"إنشاء الدعوة", shareLabel:"رابط الدعوة القابل للمشاركة", copyBtn:"نسخ",
+      openPreviewBtn:"فتح المعاينة الكاملة", previewLabel:"معاينة حيّة — بحجم الهاتف",
+      footerNote:"Atelier Dawat — تُنشأ الدعوة بالكامل داخل متصفحك، ولا تُخزَّن بياناتكم على أي خادم.",
+      backBtn:"✕ العودة للمصمم", copiedMsg:"تم النسخ ✓"
+    },
+    en:{ brandSub:"Digital Invitation Studio", heroTitle:'Design your <em>luxury</em> digital invitation',
+      heroSub:"Fill in your celebration details on the panel below, watch the live preview respond instantly, then generate an elegant link to share with your guests.",
+      secTemplate:"Template", tplBlossomDesc:"Warm, ornate, oriental scent", tplViktorDesc:"Geometric, modern, refined",
+      secEventType:"Event Type", eventWedding:"Wedding", eventEngagement:"Engagement",
+      secLang:"Invitation Language", secNames:"Couple's Names",
+      brideLatinLbl:"Bride's Name (Latin)", brideArLbl:"Bride's Name (Arabic)",
+      groomLatinLbl:"Groom's Name (Latin)", groomArLbl:"Groom's Name (Arabic)",
+      errNames:"Please enter at least the bride's and groom's names in Latin script.",
+      secVenue:"Location & Date", venueLbl:"Venue / Hall Name", cityLbl:"City / Country",
+      errVenue:"Please enter the venue name.",
+      ceremonyLbl:"Ceremony", receptionLbl:"Reception", dinnerLbl:"Dinner", partyLbl:"Party",
+      errDate:"Please enter at least one date & time.",
+      mapUrlLbl:"Google Maps URL (optional)",
+      secSections:"Invitation Sections",
+      toggleCountdown:"Countdown Timer", toggleCountdownSub:"Live countdown to the event",
+      toggleSchedule:"Schedule of Events", toggleScheduleSub:"Show timing for each part of the celebration",
+      toggleDress:"Dress Code", toggleDressSub:"Guide guests on attire",
+      toggleRsvp:"RSVP Confirmation", toggleRsvpSub:"WhatsApp confirmation button",
+      toggleMap:"Google Map Location", toggleMapSub:"Directions button to the venue",
+      dressCodeLbl:"Dress Code Description", rsvpPhoneLbl:"WhatsApp number for RSVP",
+      generateBtn:"Generate Invitation", shareLabel:"Shareable Invitation Link", copyBtn:"Copy",
+      openPreviewBtn:"Open Full Preview", previewLabel:"Live Preview — Phone Size",
+      footerNote:"Atelier Dawat — your invitation is generated entirely in your browser; no data is stored on any server.",
+      backBtn:"✕ Back to builder", copiedMsg:"Copied ✓"
+    },
+    fr:{ brandSub:"Studio d'invitations numériques", heroTitle:"Créez votre invitation numérique <em>de luxe</em>",
+      heroSub:"Renseignez les détails de votre événement ci-dessous, observez l'aperçu s'actualiser en direct, puis générez un lien élégant à partager avec vos invités.",
+      secTemplate:"Modèle", tplBlossomDesc:"Chaleureux, ornemental, esprit oriental", tplViktorDesc:"Géométrique, moderne, raffiné",
+      secEventType:"Type d'événement", eventWedding:"Mariage", eventEngagement:"Fiançailles",
+      secLang:"Langue de l'invitation", secNames:"Noms des mariés",
+      brideLatinLbl:"Nom de la mariée (Latin)", brideArLbl:"Nom de la mariée (Arabe)",
+      groomLatinLbl:"Nom du marié (Latin)", groomArLbl:"Nom du marié (Arabe)",
+      errNames:"Veuillez saisir au moins les noms en caractères latins.",
+      secVenue:"Lieu et date", venueLbl:"Nom de la salle / du lieu", cityLbl:"Ville / Pays",
+      errVenue:"Veuillez indiquer le nom du lieu.",
+      ceremonyLbl:"Cérémonie", receptionLbl:"Réception", dinnerLbl:"Dîner", partyLbl:"Soirée",
+      errDate:"Veuillez indiquer au moins une date et heure.",
+      mapUrlLbl:"Lien Google Maps (optionnel)",
+      secSections:"Sections de l'invitation",
+      toggleCountdown:"Compte à rebours", toggleCountdownSub:"Compte à rebours en direct",
+      toggleSchedule:"Programme de la soirée", toggleScheduleSub:"Afficher les horaires de chaque moment",
+      toggleDress:"Code vestimentaire", toggleDressSub:"Guider les invités sur la tenue",
+      toggleRsvp:"Confirmation RSVP", toggleRsvpSub:"Bouton de confirmation via WhatsApp",
+      toggleMap:"Localisation", toggleMapSub:"Bouton d'itinéraire vers le lieu",
+      dressCodeLbl:"Description du code vestimentaire", rsvpPhoneLbl:"Numéro WhatsApp pour le RSVP",
+      generateBtn:"Générer l'invitation", shareLabel:"Lien d'invitation à partager", copyBtn:"Copier",
+      openPreviewBtn:"Ouvrir l'aperçu complet", previewLabel:"Aperçu en direct — format téléphone",
+      footerNote:"Atelier Dawat — votre invitation est générée entièrement dans votre navigateur ; aucune donnée n'est stockée sur un serveur.",
+      backBtn:"✕ Retour à l'éditeur", copiedMsg:"Copié ✓"
+    }
+  };
+
+  /* Invitation content translations (for the invitation card itself) */
+  const T = {
+    ar:{ dir:"rtl", weddingEyebrow:"بحمد الله وتوفيقه", weddingTitle:"حفل زفاف", engagementTitle:"حفل خطوبة",
+      invitedTo:"يتشرف", and:"و", joinTitle:"بدعوتكم لمشاركة أسرتيهما فرحة", saveTheDate:"يتشرفان بدعوتكم",
+      days:"يوم", hours:"ساعة", minutes:"دقيقة", seconds:"ثانية", countdownTitle:"يبدأ الاحتفال بعد",
+      scheduleTitle:"جدول الحفل", ceremony:"العقد", reception:"الاستقبال", dinner:"العشاء", party:"السهرة",
+      dressTitle:"الزي المقترح", rsvpTitle:"تأكيد الحضور", rsvpNamePh:"اكتب اسمك هنا",
+      rsvpBtn:"تأكيد الحضور عبر واتساب", mapBtn:"عرض الموقع على الخريطة", tapToOpen:"المسوا الختم لفتح الدعوة",
+      footer:"بحضوركم تكتمل فرحتنا", rsvpMsg:"السلام عليكم، أؤكد حضوري لحفل"
+    },
+    en:{ dir:"ltr", weddingEyebrow:"Together with their families", weddingTitle:"Wedding Celebration", engagementTitle:"Engagement Celebration",
+      invitedTo:"You are cordially invited", and:"&", joinTitle:"request the honor of your presence",
+      days:"Days", hours:"Hours", minutes:"Min", seconds:"Sec", countdownTitle:"Celebration begins in",
+      scheduleTitle:"Order of the Day", ceremony:"Ceremony", reception:"Reception", dinner:"Dinner", party:"Party",
+      dressTitle:"Dress Code", rsvpTitle:"RSVP", rsvpNamePh:"Enter your name",
+      rsvpBtn:"Confirm via WhatsApp", mapBtn:"View Location on Map", tapToOpen:"Tap the seal to open",
+      footer:"Your presence is our greatest gift", rsvpMsg:"Hello, I confirm my attendance at the"
+    },
+    fr:{ dir:"ltr", weddingEyebrow:"Avec leurs familles", weddingTitle:"Célébration de mariage", engagementTitle:"Célébration de fiançailles",
+      invitedTo:"Vous êtes cordialement invités", and:"&", joinTitle:"ont l'honneur de vous convier",
+      days:"Jours", hours:"Heures", minutes:"Min", seconds:"Sec", countdownTitle:"La célébration commence dans",
+      scheduleTitle:"Déroulé de la soirée", ceremony:"Cérémonie", reception:"Réception", dinner:"Dîner", party:"Soirée",
+      dressTitle:"Code vestimentaire", rsvpTitle:"RSVP", rsvpNamePh:"Votre nom",
+      rsvpBtn:"Confirmer via WhatsApp", mapBtn:"Voir sur la carte", tapToOpen:"Touchez le sceau pour ouvrir",
+      footer:"Votre présence est notre plus beau cadeau", rsvpMsg:"Bonjour, je confirme ma présence à la"
+    }
+  };
+
+  const LOCALE_MAP = { ar:'ar-DZ', en:'en-GB', fr:'fr-FR' };
+
+  /* ===================== STATE ===================== */
+  function defaultState(){
+    return {
+      template:'blossom', eventType:'wedding', lang:'ar',
+      brideLatin:'Amira', brideAr:'أميرة', groomLatin:'Karim', groomAr:'كريم',
+      venue:'Villa Zephyra', city:'الجزائر العاصمة، الجزائر',
+      ceremony:'', reception:'', dinner:'', party:'',
+      mapUrl:'', dressCode:'أناقة رسمية — درجات الذهبي والبيج', rsvpPhone:'',
+      toggles:{ countdown:true, schedule:true, dressCode:true, rsvp:true, map:false }
+    };
+  }
+  let state = defaultState();
+  let uiLang = 'ar';
+
+  /* ===================== HELPERS ===================== */
+  function el(id){ return document.getElementById(id); }
+  function esc(s){ return (s||'').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function fmtDate(iso, lang){
+    if(!iso) return '';
+    const d = new Date(iso);
+    if(isNaN(d)) return '';
+    try{
+      return d.toLocaleString(LOCALE_MAP[lang]||'en-GB', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' });
+    }catch(e){ return iso; }
+  }
+
+  function mainTargetDate(s){
+    return s.ceremony || s.reception || s.dinner || s.party || '';
+  }
+
+  /* ===================== RENDER INVITATION HTML ===================== */
+  function renderInviteCardHTML(s, opts){
+    opts = opts || {};
+    const t = T[s.lang] || T.ar;
+    const tpl = s.template === 'viktor' ? 'tpl-viktor' : 'tpl-blossom';
+    const isWedding = s.eventType !== 'engagement';
+    const title = isWedding ? t.weddingTitle : t.engagementTitle;
+
+    const nameLatinBlock = `<div class="ic-names">${esc(s.brideLatin)||'—'}<span class="amp">${t.and}</span>${esc(s.groomLatin)||'—'}</div>`;
+    const nameArBlock = (s.brideAr || s.groomAr) ? `<div class="ic-names-ar">${esc(s.brideAr)} ${s.brideAr&&s.groomAr?'&nbsp;&amp;&nbsp;':''} ${esc(s.groomAr)}</div>` : '';
+
+    const targetDate = mainTargetDate(s);
+    const countdownHTML = (s.toggles.countdown && targetDate) ? `
+      <div class="ic-section">
+        <div class="ic-section-title">${t.countdownTitle}</div>
+        <div class="ic-count" data-countdown="${esc(targetDate)}">
+          <div class="cbox"><span class="cnum" data-cd="d">00</span><span class="clabel">${t.days}</span></div>
+          <div class="cbox"><span class="cnum" data-cd="h">00</span><span class="clabel">${t.hours}</span></div>
+          <div class="cbox"><span class="cnum" data-cd="m">00</span><span class="clabel">${t.minutes}</span></div>
+          <div class="cbox"><span class="cnum" data-cd="s">00</span><span class="clabel">${t.seconds}</span></div>
+        </div>
+      </div>` : '';
+
+    const scheduleRows = [
+      ['ceremony', t.ceremony, s.ceremony],
+      ['reception', t.reception, s.reception],
+      ['dinner', t.dinner, s.dinner],
+      ['party', t.party, s.party]
+    ].filter(r => r[2]);
+    const scheduleHTML = (s.toggles.schedule && scheduleRows.length) ? `
+      <div class="ic-section">
+        <div class="ic-section-title">${t.scheduleTitle}</div>
+        <div class="ic-schedule">
+          ${scheduleRows.map(r => `<div class="ic-sched-row"><span class="lbl">${r[1]}</span><span class="val">${fmtDate(r[2], s.lang)}</span></div>`).join('')}
+        </div>
+      </div>` : '';
+
+    const dressHTML = (s.toggles.dressCode && s.dressCode) ? `
+      <div class="ic-section">
+        <div class="ic-section-title">${t.dressTitle}</div>
+        <div class="ic-text">${esc(s.dressCode)}</div>
+      </div>` : '';
+
+    const rsvpMsg = encodeURIComponent(`${t.rsvpMsg} ${title} — ${s.brideLatin} ${t.and} ${s.groomLatin}`);
+    const rsvpHTML = (s.toggles.rsvp) ? `
+      <div class="ic-section">
+        <div class="ic-section-title">${t.rsvpTitle}</div>
+        ${s.rsvpPhone ? `<a class="ic-btn solid" target="_blank" rel="noopener" href="https://wa.me/${s.rsvpPhone.replace(/[^0-9]/g,'')}?text=${rsvpMsg}">${t.rsvpBtn}</a>`
+                       : `<div class="ic-text">${t.rsvpBtn}</div>`}
+      </div>` : '';
+
+    const mapHTML = (s.toggles.map && s.mapUrl) ? `
+      <div class="ic-section">
+        <a class="ic-btn" target="_blank" rel="noopener" href="${esc(s.mapUrl)}">${t.mapBtn}</a>
+      </div>` : '';
+
+    const venueDate = fmtDate(targetDate, s.lang);
+
+    return `
+      <div class="invite-card">
+        <div class="ic-eyebrow">${t.weddingEyebrow}</div>
+        ${nameLatinBlock}
+        ${nameArBlock}
+        <div class="ic-divider"></div>
+        <div class="ic-sub">${t.joinTitle}</div>
+        <div class="ic-venue">${esc(s.venue)||''}</div>
+        <div class="ic-date">${esc(s.city)||''}${s.city&&venueDate?' — ':''}${venueDate}</div>
+        ${countdownHTML}
+        ${scheduleHTML}
+        ${dressHTML}
+        ${rsvpHTML}
+        ${mapHTML}
+        <div class="ic-footer">${t.footer}</div>
+      </div>
+    `;
+  }
+
+  function renderEnvelopeStage(container, s, opened){
+    const t = T[s.lang] || T.ar;
+    const tpl = s.template === 'viktor' ? 'tpl-viktor' : 'tpl-blossom';
+    container.className = 'stage has-envelope ' + tpl + (opened ? ' revealed' : '');
+    container.setAttribute('dir', t.dir);
+
+    const initials = ((s.brideLatin||'?')[0]||'?').toUpperCase() + '&' + ((s.groomLatin||'?')[0]||'?').toUpperCase();
+
+    container.innerHTML = `
+      <div class="envelope-wrap${opened?' open':''}" id="envelopeWrap">
+        <div class="envelope">
+          <div class="card-peek"></div>
+          <div class="flap"></div>
+          <div class="seal">${initials}</div>
+          <div class="particles" id="particlesLayer"></div>
+        </div>
+        <div class="envelope-hint">${t.tapToOpen}</div>
+      </div>
+      <div id="cardSlot" style="width:100%; max-width:340px; margin:0 auto; ${opened?'':'display:none;'}"></div>
+    `;
+
+    const cardSlot = container.querySelector('#cardSlot');
+    cardSlot.innerHTML = renderInviteCardHTML(s);
+
+    const wrap = container.querySelector('#envelopeWrap');
+    wrap.addEventListener('click', function(){
+      if(wrap.classList.contains('open')) return;
+      wrap.classList.add('open');
+      burstParticles(container.querySelector('#particlesLayer'));
+      setTimeout(() => {
+        cardSlot.style.display = 'block';
+        requestAnimationFrame(() => container.classList.add('revealed'));
+        wrap.style.display = 'none';
+      }, 550);
+    });
+
+    startCountdowns(container, s.lang);
+  }
+
+  function burstParticles(layer){
+    if(!layer) return;
+    const n = 18;
+    for(let i=0;i<n;i++){
+      const p = document.createElement('span');
+      p.className = 'particle';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 60 + Math.random()*70;
+      p.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
+      p.style.setProperty('--dy', Math.sin(angle)*dist - 40 + 'px');
+      p.style.left = '50%'; p.style.top = '42%';
+      p.style.animationDelay = (Math.random()*0.15) + 's';
+      layer.appendChild(p);
+      setTimeout(() => p.remove(), 1600);
+    }
+  }
+
+  /* ===================== COUNTDOWN ===================== */
+  let countdownTimers = [];
+  function startCountdowns(scope, lang){
+    countdownTimers.forEach(id => clearInterval(id));
+    countdownTimers = [];
+    const boxes = scope.querySelectorAll('[data-countdown]');
+    boxes.forEach(box => {
+      const target = new Date(box.getAttribute('data-countdown'));
+      function tick(){
+        const now = new Date();
+        let diff = Math.max(0, target - now);
+        const d = Math.floor(diff / 86400000); diff -= d*86400000;
+        const h = Math.floor(diff / 3600000); diff -= h*3600000;
+        const m = Math.floor(diff / 60000); diff -= m*60000;
+        const sec = Math.floor(diff / 1000);
+        const set = (k,v) => { const n = box.querySelector('[data-cd="'+k+'"]'); if(n) n.textContent = String(v).padStart(2,'0'); };
+        set('d', d); set('h', h); set('m', m); set('s', sec);
+      }
+      tick();
+      const id = setInterval(tick, 1000);
+      countdownTimers.push(id);
+    });
+  }
+
+  /* ===================== FORM <-> STATE ===================== */
+  function collectState(){
+    return {
+      template: document.querySelector('.template-card.active').getAttribute('data-template'),
+      eventType: document.querySelector('#eventTypeGroup .pill.active').getAttribute('data-event'),
+      lang: document.querySelector('#inviteLangGroup .pill.active').getAttribute('data-lang'),
+      brideLatin: el('brideLatin').value.trim(),
+      brideAr: el('brideAr').value.trim(),
+      groomLatin: el('groomLatin').value.trim(),
+      groomAr: el('groomAr').value.trim(),
+      venue: el('venue').value.trim(),
+      city: el('city').value.trim(),
+      ceremony: el('ceremony').value,
+      reception: el('reception').value,
+      dinner: el('dinner').value,
+      party: el('party').value,
+      mapUrl: el('mapUrl').value.trim(),
+      dressCode: el('dressCode').value.trim(),
+      rsvpPhone: el('rsvpPhone').value.trim(),
+      toggles:{
+        countdown: el('toggleCountdown').checked,
+        schedule: el('toggleSchedule').checked,
+        dressCode: el('toggleDress').checked,
+        rsvp: el('toggleRsvp').checked,
+        map: el('toggleMap').checked
+      }
+    };
+  }
+
+  function refreshPreview(){
+    state = collectState();
+    const stage = el('previewStage');
+    const wasOpen = !!stage.querySelector('.envelope-wrap.open');
+    renderEnvelopeStage(stage, state, wasOpen);
+  }
+
+  /* ===================== VALIDATION ===================== */
+  function validate(s){
+    let ok = true;
+    const showErr = (id, show) => { const e = el(id); if(e) e.classList.toggle('show', show); };
+    const nameOk = !!(s.brideLatin && s.groomLatin);
+    showErr('err-names', !nameOk); if(!nameOk) ok = false;
+    const venueOk = !!s.venue;
+    showErr('err-venue', !venueOk); if(!venueOk) ok = false;
+    const dateOk = !!(s.ceremony || s.reception || s.dinner || s.party);
+    showErr('err-date', !dateOk); if(!dateOk) ok = false;
+    [['brideLatin',s.brideLatin],['groomLatin',s.groomLatin],['venue',s.venue]].forEach(([id,val])=>{
+      el(id).classList.toggle('invalid', !val);
+    });
+    return ok;
+  }
+
+  /* ===================== ENCODE / DECODE ===================== */
+  function encodeState(s){
+    const json = JSON.stringify(s);
+    return btoa(unescape(encodeURIComponent(json)));
+  }
+  function decodeState(str){
+    const json = decodeURIComponent(escape(atob(str)));
+    return JSON.parse(json);
+  }
+
+  /* ===================== UI WIRING ===================== */
+  function setActive(groupSelector, target){
+    document.querySelectorAll(groupSelector).forEach(b => b.classList.remove('active'));
+    target.classList.add('active');
+  }
+
+  function applyUILang(lang){
+    uiLang = lang;
+    const dict = UI[lang];
+    document.querySelectorAll('[data-i18n]').forEach(node => {
+      const key = node.getAttribute('data-i18n');
+      if(dict[key] !== undefined) node.innerHTML = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b.getAttribute('data-uilang') === lang));
+    document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    document.body.style.fontFamily = lang === 'ar' ? "var(--font-ar-body)" : "var(--font-ui)";
+  }
+
+  function initBuilder(){
+    // Template select
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => { setActive('.template-card', card); refreshPreview(); });
+    });
+    // Event type
+    document.querySelectorAll('#eventTypeGroup .pill').forEach(p => {
+      p.addEventListener('click', () => { setActive('#eventTypeGroup .pill', p); refreshPreview(); });
+    });
+    // Invite language
+    document.querySelectorAll('#inviteLangGroup .pill').forEach(p => {
+      p.addEventListener('click', () => { setActive('#inviteLangGroup .pill', p); refreshPreview(); });
+    });
+    // UI chrome language
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.addEventListener('click', () => applyUILang(b.getAttribute('data-uilang')));
+    });
+    // Live inputs
+    ['brideLatin','brideAr','groomLatin','groomAr','venue','city','ceremony','reception','dinner','party',
+     'mapUrl','dressCode','rsvpPhone'].forEach(id => {
+      el(id).addEventListener('input', refreshPreview);
+    });
+    ['toggleCountdown','toggleSchedule','toggleDress','toggleRsvp','toggleMap'].forEach(id => {
+      el(id).addEventListener('change', refreshPreview);
+    });
+
+    // Submit / generate
+    el('builderForm').addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const s = collectState();
+      if(!validate(s)) return;
+      const encoded = encodeState(s);
+      const url = location.origin + location.pathname + '?i=' + encoded;
+      el('shareLink').value = url;
+      el('openPreviewBtn').href = url;
+      el('shareResult').classList.add('show');
+      el('shareResult').scrollIntoView({behavior:'smooth', block:'nearest'});
+
+      // Open the finished invitation page directly for the user
+      const newTab = window.open(url, '_blank');
+      if(!newTab){
+        // Popup blocked by the browser — fall back to navigating in the same tab
+        location.href = url;
+      }
+    });
+
+    el('copyLinkBtn').addEventListener('click', function(){
+      const input = el('shareLink');
+      input.select(); input.setSelectionRange(0, 99999);
+      navigator.clipboard && navigator.clipboard.writeText(input.value).catch(()=>{ document.execCommand('copy'); });
+      const original = this.textContent;
+      this.textContent = UI[uiLang].copiedMsg;
+      setTimeout(() => { this.textContent = original; }, 1600);
+    });
+
+    refreshPreview();
+  }
+
+  /* ===================== FULL INVITATION MODE ===================== */
+  function initInviteView(s){
+    document.getElementById('builderView').style.display = 'none';
+    document.getElementById('inviteView').style.display = 'block';
+    document.title = (s.brideLatin || '') + ' & ' + (s.groomLatin || '') + ' — Invitation';
+    const t = T[s.lang] || T.ar;
+    document.body.setAttribute('dir', t.dir);
+    document.body.style.fontFamily = s.lang === 'ar' ? "var(--font-ar-body)" : "var(--font-ui)";
+    document.getElementById('backToBuilder').textContent = UI[s.lang==='ar'?'ar':(s.lang==='fr'?'fr':'en')].backBtn;
+    renderEnvelopeStage(el('fullStage'), s, false);
+    el('backToBuilder').addEventListener('click', function(){
+      history.replaceState(null, '', location.pathname);
+      location.reload();
+    });
+  }
+
+  /* ===================== BOOT ===================== */
+  function boot(){
+    const params = new URLSearchParams(location.search);
+    if(params.has('i')){
+      try{
+        const s = decodeState(params.get('i'));
+        initInviteView(Object.assign(defaultState(), s));
+        return;
+      }catch(e){ /* fall through to builder on bad payload */ }
+    }
+    applyUILang('ar');
+    initBuilder();
+  }
+
+  document.addEventListener('DOMContentLoaded', boot);
+})();
+</script>
+</body>
+</html>
