@@ -56,7 +56,6 @@
   button{ font-family:inherit; cursor:pointer; }
   input, select, textarea{ font-family:inherit; }
 
-  /* thin gold scrollbar */
   ::-webkit-scrollbar{ width:8px; height:8px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
   ::-webkit-scrollbar-thumb{ background:var(--gold-deep); border-radius:4px; }
@@ -95,41 +94,22 @@
     max-width:1400px; margin:0 auto;
     align-items:start;
   }
-  @media (max-width:980px){
-    .app-grid{ grid-template-columns:1fr; }
-  }
+  @media (max-width:980px){ .app-grid{ grid-template-columns:1fr; } }
 
-  .hero-line{
-    max-width:1400px; margin:0 auto 28px; padding:0 clamp(18px,4vw,48px);
-  }
-  .hero-line h1{
-    font-family:var(--font-display); font-weight:500; font-size:clamp(26px,3.4vw,40px);
-    margin:0 0 8px; letter-spacing:0.01em;
-  }
+  .hero-line{ max-width:1400px; margin:0 auto 28px; padding:0 clamp(18px,4vw,48px); }
+  .hero-line h1{ font-family:var(--font-display); font-weight:500; font-size:clamp(26px,3.4vw,40px); margin:0 0 8px; letter-spacing:0.01em; }
   .hero-line h1 em{ font-style:italic; color:var(--gold); font-family:var(--font-script); font-size:1.12em; }
   .hero-line p{ margin:0; color:var(--muted); font-size:14px; max-width:640px; line-height:1.7; }
 
   /* ============ FORM PANEL ============ */
-  .panel{
-    background:linear-gradient(180deg, var(--card), var(--panel));
-    border:1px solid var(--gold-line);
-    border-radius:var(--radius);
-    padding:clamp(20px,3vw,32px);
-  }
+  .panel{ background:linear-gradient(180deg, var(--card), var(--panel)); border:1px solid var(--gold-line); border-radius:var(--radius); padding:clamp(20px,3vw,32px); }
   .section-block{ margin-bottom:30px; }
   .section-block:last-child{ margin-bottom:0; }
-  .section-label{
-    display:flex; align-items:center; gap:10px;
-    font-family:var(--font-display); font-style:italic; font-size:13px;
-    color:var(--gold-soft); letter-spacing:0.03em; margin-bottom:16px;
-  }
+  .section-label{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-style:italic; font-size:13px; color:var(--gold-soft); letter-spacing:0.03em; margin-bottom:16px; }
   .section-label::after{ content:""; flex:1; height:1px; background:var(--gold-line); }
 
   .field{ margin-bottom:14px; }
-  .field label{
-    display:block; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--muted); margin-bottom:6px;
-  }
+  .field label{ display:block; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
   .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   @media (max-width:420px){ .field-row{ grid-template-columns:1fr; } }
 
@@ -140,25 +120,19 @@
     font-size:14px; outline:none; transition:border-color .2s, box-shadow .2s;
   }
   .field textarea{ resize:vertical; min-height:64px; font-family:inherit; }
-  .field input:focus, .field select:focus, .field textarea:focus{
-    border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.12);
-  }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.12); }
   .field input.invalid{ border-color:var(--err); }
   .field-error{ font-size:11px; color:var(--err); margin-top:5px; display:none; }
   .field-error.show{ display:block; }
 
   .field select{ appearance:none; -webkit-appearance:none;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0L5 6L10 0' fill='none' stroke='%23D4AF37' stroke-width='1.3'/></svg>");
-    background-repeat:no-repeat; background-position: left 12px center;
-    padding-left:30px;
+    background-repeat:no-repeat; background-position: left 12px center; padding-left:30px;
   }
   body[dir="rtl"] .field select{ background-position: right 12px center; padding-left:12px; padding-right:30px; }
 
   .template-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .template-card{
-    border:1px solid var(--gold-line); border-radius:var(--radius); padding:14px 12px;
-    cursor:pointer; transition:all .2s; background:var(--void);
-  }
+  .template-card{ border:1px solid var(--gold-line); border-radius:var(--radius); padding:14px 12px; cursor:pointer; transition:all .2s; background:var(--void); }
   .template-card:hover{ border-color:var(--gold); }
   .template-card.active{ border-color:var(--gold); background:rgba(212,175,55,0.08); box-shadow:0 0 0 1px var(--gold) inset; }
   .template-card .tname{ font-family:var(--font-script); font-style:italic; font-size:17px; color:var(--ivory); }
@@ -167,18 +141,11 @@
   .template-swatch i{ width:14px; height:14px; border-radius:50%; display:block; }
 
   .pill-group{ display:flex; gap:10px; flex-wrap:wrap; }
-  .pill{
-    border:1px solid var(--gold-line); padding:9px 16px; border-radius:20px;
-    font-size:12.5px; color:var(--muted); transition:all .2s; background:transparent;
-  }
+  .pill{ border:1px solid var(--gold-line); padding:9px 16px; border-radius:20px; font-size:12.5px; color:var(--muted); transition:all .2s; background:transparent; }
   .pill.active{ border-color:var(--gold); color:var(--gold); background:rgba(212,175,55,0.08); }
 
   .toggle-list{ display:flex; flex-direction:column; gap:10px; }
-  .toggle-row{
-    display:flex; align-items:center; justify-content:space-between;
-    border:1px solid rgba(212,175,55,0.15); border-radius:var(--radius);
-    padding:11px 14px; background:var(--void);
-  }
+  .toggle-row{ display:flex; align-items:center; justify-content:space-between; border:1px solid rgba(212,175,55,0.15); border-radius:var(--radius); padding:11px 14px; background:var(--void); }
   .toggle-row .trow-label{ font-size:13px; color:var(--ivory); }
   .toggle-row .trow-sub{ font-size:10.5px; color:var(--muted-dim); margin-top:2px; }
   .switch{ position:relative; width:38px; height:21px; flex:none; }
@@ -189,12 +156,7 @@
   .switch input:checked + .track .knob{ transform:translateX(17px); background:var(--gold); }
   body[dir="rtl"] .switch input:checked + .track .knob{ transform:translateX(-17px); }
 
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    padding:14px 22px; border-radius:var(--radius); border:1px solid var(--gold);
-    font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;
-    transition:all .2s;
-  }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 22px; border-radius:var(--radius); border:1px solid var(--gold); font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; font-weight:500; transition:all .2s; }
   .btn-gold{ background:var(--gold); color:#171310; }
   .btn-gold:hover{ background:var(--gold-soft); }
   .btn-ghost{ background:transparent; color:var(--gold); }
@@ -202,162 +164,137 @@
   .btn-block{ width:100%; }
 
   .generate-box{ margin-top:8px; }
-  .share-result{
-    margin-top:16px; border:1px solid var(--gold-line); border-radius:var(--radius);
-    padding:16px; background:var(--void); display:none;
-  }
+  .share-result{ margin-top:16px; border:1px solid var(--gold-line); border-radius:var(--radius); padding:16px; background:var(--void); display:none; }
   .share-result.show{ display:block; }
   .share-result .sr-label{ font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
   .share-row{ display:flex; gap:8px; }
-  .share-row input{ flex:1; background:var(--card-2); border:1px solid var(--gold-line); color:var(--gold-soft);
-    padding:10px 12px; border-radius:var(--radius); font-size:12px; }
+  .share-row input{ flex:1; background:var(--card-2); border:1px solid var(--gold-line); color:var(--gold-soft); padding:10px 12px; border-radius:var(--radius); font-size:12px; }
   .share-row button{ border:1px solid var(--gold-line); background:transparent; color:var(--gold); padding:0 14px; border-radius:var(--radius); font-size:12px; }
   .share-row button:hover{ border-color:var(--gold); background:rgba(212,175,55,.08); }
   .share-actions{ display:flex; gap:10px; margin-top:12px; }
 
-  /* ============ PREVIEW ============ */
+  /* ============ PREVIEW PHONE ============ */
   .preview-col{ position:sticky; top:20px; }
   @media (max-width:980px){ .preview-col{ position:static; } }
-  .preview-frame-label{
-    text-align:center; font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--muted); margin-bottom:14px;
-  }
-  .phone{
-    max-width:380px; margin:0 auto; border:10px solid #05100 ;
-    border:10px solid #050403; border-radius:36px; background:#050403;
-    box-shadow:0 40px 90px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.2);
-    overflow:hidden; position:relative;
-  }
-  .phone::before{
-    content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:120px; height:22px; background:#050403; border-radius:0 0 14px 14px; z-index:5;
-  }
-  .phone-screen{ min-height:640px; position:relative; overflow:hidden; background:var(--void); }
+  .preview-frame-label{ text-align:center; font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+  .phone{ max-width:380px; margin:0 auto; border:10px solid #050403; border-radius:36px; background:#050403; box-shadow:0 40px 90px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.2); overflow:hidden; position:relative; }
+  .phone::before{ content:""; position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:22px; background:#050403; border-radius:0 0 14px 14px; z-index:5; }
+  .phone-screen{ --stage-h:640px; height:640px; position:relative; overflow:hidden; background:var(--void); }
 
-  /* ===== invitation stage (shared by preview + full) ===== */
-  .stage{ position:relative; width:100%; min-height:640px; display:flex; align-items:center; justify-content:center; padding:26px; }
-  .stage-full{ min-height:100vh; }
+  #inviteView{ --stage-h:100vh; height:100vh; overflow:hidden; display:none; background:var(--void); }
+  .stage{ position:relative; width:100%; height:100%; }
 
-  /* Envelope */
-  .envelope-wrap{ perspective:1400px; width:100%; max-width:300px; }
-  .envelope{
-    position:relative; width:100%; aspect-ratio:3/2; cursor:pointer;
-    background:linear-gradient(160deg,#1b1611,#0d0b08);
-    border:1px solid var(--gold-line); border-radius:3px;
-    box-shadow:var(--shadow-card);
+  /* ============ INVITATION SCROLL EXPERIENCE ============ */
+  .invite-scroll{ position:relative; height:var(--stage-h); overflow:hidden; }
+  .invite-scroll.opened{ overflow-y:auto; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+
+  .cover-sec, .hero-sec, .formal-sec, .schedule-sec, .location-sec, .dress-sec, .rsvp-sec, .closing-sec{
+    min-height:var(--stage-h); width:100%; box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:44px 24px; position:relative; text-align:center;
   }
-  .envelope .flap{
-    position:absolute; top:0; left:0; width:100%; height:62%;
-    background:linear-gradient(160deg,#231c14,#120f0a);
-    clip-path:polygon(0 0,100% 0,50% 78%);
-    border:1px solid var(--gold-line); border-top:none;
-    transform-origin:top center; transition:transform 1s cubic-bezier(.6,.1,.2,1);
-    z-index:3;
-  }
-  .envelope .card-peek{
-    position:absolute; left:6%; right:6%; bottom:6%; top:16%;
-    background:linear-gradient(180deg,#f3ecda,#e9dfc2);
-    border-radius:2px; box-shadow:0 -10px 20px rgba(0,0,0,0.3);
-    z-index:1; transition:transform 1s cubic-bezier(.6,.1,.2,1) .1s;
-  }
-  .seal{
-    position:absolute; top:50%; left:50%; width:58px; height:58px; border-radius:50%;
-    transform:translate(-50%,-40%); z-index:4;
-    background:radial-gradient(circle at 35% 30%, #c8863f, #7c2d22 70%);
-    box-shadow:0 6px 14px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.3);
+  .hero-sec, .formal-sec, .schedule-sec, .location-sec, .dress-sec, .rsvp-sec{ border-top:1px solid var(--gold-line); }
+
+  .flourish{ width:52px; height:1px; background:var(--gold); position:relative; margin:18px auto; flex:none; }
+  .flourish::after{ content:""; position:absolute; top:50%; left:50%; width:7px; height:7px; background:var(--gold); transform:translate(-50%,-50%) rotate(45deg); }
+
+  /* ---- Cover / seal ---- */
+  .cover-sec{ cursor:pointer; background:radial-gradient(circle at 50% 38%, rgba(212,175,55,0.09), transparent 60%), linear-gradient(180deg,#141110,#0a0908); }
+  .cover-frame{ position:absolute; inset:18px; border:1px solid var(--gold-line); pointer-events:none; }
+  .cover-frame::before, .cover-frame::after{ content:""; position:absolute; width:22px; height:22px; border:1px solid var(--gold); opacity:.8; }
+  .cover-frame::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .cover-frame::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .cover-eyebrow{ font-size:10px; letter-spacing:0.34em; text-transform:uppercase; color:var(--muted); margin-bottom:26px; }
+  .seal-big{
+    width:92px; height:92px; border-radius:50%; margin:0 auto;
+    background:radial-gradient(circle at 34% 28%, #d9a24a, #7c4a1c 72%);
+    box-shadow:0 10px 22px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(0,0,0,0.35), inset 0 0 0 5px rgba(0,0,0,0.12);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-script); font-style:italic; color:#f3ecda; font-size:17px;
-    transition:transform .7s ease, opacity .7s ease;
+    font-family:var(--font-ar-display); color:#2a1a08; font-size:15px; letter-spacing:0.02em;
+    transition:transform .8s cubic-bezier(.6,.05,.2,1), opacity .8s ease;
+    position:relative; z-index:3;
   }
-  .envelope-hint{
-    position:absolute; bottom:-34px; left:0; right:0; text-align:center;
-    font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);
-  }
-  .envelope-wrap.open .flap{ transform:rotateX(180deg); }
-  .envelope-wrap.open .seal{ opacity:0; transform:translate(-50%,-40%) scale(0.4) rotate(25deg); }
-  .envelope-wrap.open .card-peek{ transform:translateY(-130%) scale(1.02); }
+  .seal-big .sb-line1{ position:absolute; width:100%; text-align:center; }
+  .cover-hint{ margin-top:22px; font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold-soft); }
+  .cover-sec.breaking .seal-big{ transform:scale(0.5) rotate(20deg); opacity:0; }
+  .cover-sec.breaking .cover-hint{ opacity:0; transition:opacity .3s; }
 
-  .particles{ position:absolute; inset:0; pointer-events:none; overflow:visible; z-index:6; }
-  .particle{
-    position:absolute; width:4px; height:4px; background:var(--gold); border-radius:50%;
-    opacity:0; animation:pfloat 1.3s ease-out forwards;
-  }
-  @keyframes pfloat{
-    0%{ opacity:0; transform:translate(0,0) scale(0.5);}
-    15%{ opacity:1;}
-    100%{ opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.1);}
-  }
+  .particles-layer{ position:absolute; inset:0; pointer-events:none; overflow:visible; z-index:5; }
+  .particle{ position:absolute; width:4px; height:4px; background:var(--gold); border-radius:50%; opacity:0; animation:pfloat 1.3s ease-out forwards; }
+  @keyframes pfloat{ 0%{opacity:0; transform:translate(0,0) scale(0.5);} 15%{opacity:1;} 100%{opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.1);} }
 
-  /* Invitation card content */
-  .invite-card{
-    width:100%; max-width:340px; margin:0 auto; text-align:center;
-    background:linear-gradient(180deg,#171310,#100e0b);
-    border:1px solid var(--gold-line); position:relative;
-    padding:34px 22px 26px; opacity:0; transform:translateY(16px);
-    transition:opacity .8s ease .4s, transform .8s ease .4s;
-  }
-  .stage.revealed .invite-card{ opacity:1; transform:translateY(0); }
-  .stage:not(.has-envelope) .invite-card{ opacity:1; transform:none; transition:none; }
+  /* ---- Hero ---- */
+  .hero-sec{ background:radial-gradient(600px 300px at 50% 0%, rgba(212,175,55,0.07), transparent 60%); }
+  .hero-eyebrow{ font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; }
+  .hero-names{ font-family:var(--font-script); font-style:italic; font-size:34px; color:var(--ivory); line-height:1.3; }
+  .hero-names .hn-amp{ display:block; font-family:var(--font-display); font-style:normal; color:var(--gold); font-size:13px; letter-spacing:0.35em; margin:10px 0; text-transform:uppercase; }
+  .hero-names-ar{ font-family:var(--font-ar-display); font-size:28px; color:var(--ivory); margin-top:8px; }
+  .hero-date{ font-size:13.5px; color:var(--gold-soft); margin-top:6px; letter-spacing:0.03em; }
+  .hero-venue{ font-size:12px; color:var(--muted); margin-top:6px; letter-spacing:0.03em; }
+  .scroll-cue{ margin-top:30px; color:var(--gold-deep); font-size:16px; animation:bob 2s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:.5;} 50%{ transform:translateY(6px); opacity:1;} }
 
-  .invite-card::before, .invite-card::after{
-    content:""; position:absolute; width:26px; height:26px; border:1px solid var(--gold);
-    opacity:.7;
-  }
-  .invite-card::before{ top:8px; left:8px; border-right:none; border-bottom:none; }
-  .invite-card::after{ bottom:8px; right:8px; border-left:none; border-top:none; }
-
-  .ic-eyebrow{ font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
-  .ic-names{ font-family:var(--font-script); font-style:italic; font-size:30px; line-height:1.25; color:var(--ivory); margin:0 0 4px; }
-  .ic-names .amp{ display:block; font-family:var(--font-display); font-style:normal; color:var(--gold); font-size:14px; letter-spacing:0.3em; margin:8px 0; }
-  .ic-names-ar{ font-family:var(--font-ar-display); font-size:26px; color:var(--ivory); margin:6px 0 0; line-height:1.5; }
-  .ic-divider{ width:46px; height:1px; background:var(--gold); margin:18px auto; }
-  .ic-sub{ font-size:12px; color:var(--muted); letter-spacing:0.04em; line-height:1.8; margin-bottom:4px; }
-  .ic-venue{ font-family:var(--font-display); font-style:italic; font-size:16px; color:var(--gold-soft); margin-top:8px; }
-  .ic-date{ font-size:12.5px; color:var(--ivory); margin-top:6px; letter-spacing:0.03em; }
-
-  .ic-section{ margin-top:24px; text-align:start; }
-  .ic-section-title{
-    font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold);
-    margin-bottom:10px; text-align:center;
-  }
-  .ic-count{ display:flex; justify-content:center; gap:10px; margin-top:6px; }
-  .ic-count .cbox{ text-align:center; }
-  .ic-count .cnum{ font-family:var(--font-display); font-size:19px; color:var(--ivory); display:block; }
+  .ic-count{ display:flex; justify-content:center; gap:14px; margin-top:22px; }
+  .ic-count .cbox{ text-align:center; min-width:44px; }
+  .ic-count .cnum{ font-family:var(--font-display); font-size:22px; color:var(--ivory); display:block; }
   .ic-count .clabel{ font-size:8.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
 
-  .ic-schedule{ display:flex; flex-direction:column; gap:8px; }
-  .ic-sched-row{ display:flex; justify-content:space-between; font-size:12px; border-bottom:1px dashed rgba(212,175,55,0.2); padding-bottom:6px; }
-  .ic-sched-row .lbl{ color:var(--gold-soft); }
-  .ic-sched-row .val{ color:var(--muted); }
+  /* ---- Formal wording ---- */
+  .formal-frame{ max-width:300px; border:1px solid var(--gold-line); border-radius:130px 130px 4px 4px; padding:46px 26px 30px; position:relative; }
+  .formal-frame::before{ content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%); width:60%; height:1px; background:var(--gold-line); }
+  .bismillah{ font-family:var(--font-ar-display); font-size:19px; color:var(--gold-soft); margin-bottom:18px; }
+  .formal-eyebrow{ font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+  .formal-text{ font-size:13px; color:var(--ivory); line-height:2; margin:0; }
 
-  .ic-text{ font-size:12px; color:var(--muted); line-height:1.8; text-align:center; }
+  /* ---- Schedule ---- */
+  .schedule-title, .location-title, .dress-title, .rsvp-title{ font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; }
+  .schedule-list{ width:100%; max-width:280px; display:flex; flex-direction:column; gap:14px; }
+  .sched-row{ display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px dashed var(--gold-line); padding-bottom:10px; }
+  .sched-row .lbl{ font-family:var(--font-display); font-style:italic; font-size:14px; color:var(--gold-soft); }
+  .sched-row .val{ font-size:11.5px; color:var(--muted); }
 
-  .ic-btn{
-    display:block; width:100%; text-align:center; margin-top:10px; padding:11px;
-    border:1px solid var(--gold); color:var(--gold); font-size:11px; letter-spacing:0.1em;
-    text-transform:uppercase; text-decoration:none; border-radius:2px; background:transparent; transition:.2s;
+  /* ---- Location ---- */
+  .pin{ width:16px; height:16px; border-radius:50% 50% 50% 0; background:var(--gold); transform:rotate(-45deg); margin:0 auto 18px; box-shadow:0 4px 10px rgba(212,175,55,.4); }
+  .location-venue{ font-family:var(--font-script); font-style:italic; font-size:22px; color:var(--ivory); }
+  .location-city{ font-size:12px; color:var(--muted); margin-top:6px; }
+
+  /* ---- Dress code ---- */
+  .dress-text{ font-size:13px; color:var(--muted); line-height:1.9; max-width:280px; }
+
+  /* ---- RSVP ---- */
+  .rsvp-form{ width:100%; max-width:280px; display:flex; flex-direction:column; gap:12px; }
+  .rsvp-form input[type=text], .rsvp-form input[type=number]{
+    width:100%; background:var(--void); border:1px solid var(--gold-line); color:var(--ivory);
+    padding:12px 14px; border-radius:2px; font-size:13px; text-align:center; outline:none;
   }
+  .rsvp-form input:focus{ border-color:var(--gold); }
+  .rsvp-attend{ display:flex; gap:8px; justify-content:center; }
+  .rsvp-attend label{ flex:1; }
+  .rsvp-attend input{ display:none; }
+  .rsvp-attend span{ display:block; border:1px solid var(--gold-line); padding:10px 6px; border-radius:2px; font-size:11.5px; color:var(--muted); transition:.2s; }
+  .rsvp-attend input:checked + span{ border-color:var(--gold); color:var(--gold); background:rgba(212,175,55,.08); }
+  .rsvp-submit{ margin-top:4px; }
+  .rsvp-thanks{ display:none; font-size:12.5px; color:var(--gold-soft); margin-top:10px; }
+  .rsvp-thanks.show{ display:block; }
+
+  /* ---- Closing ---- */
+  .closing-mark{ width:30px; height:30px; border:1px solid var(--gold); transform:rotate(45deg); margin-bottom:22px; }
+  .closing-text{ font-family:var(--font-display); font-style:italic; font-size:17px; color:var(--gold-soft); }
+  .closing-sub{ font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-dim); margin-top:10px; }
+
+  /* ---- Template variants ---- */
+  .tpl-blossom .hero-names, .tpl-blossom .location-venue, .tpl-blossom .closing-text{ font-family:var(--font-script); }
+  .tpl-blossom .hero-eyebrow, .tpl-blossom .formal-eyebrow{ color:#dba463; }
+  .tpl-viktor .hero-names{ font-family:var(--font-display); font-style:normal; letter-spacing:0.02em; }
+  .tpl-viktor .formal-frame{ border-radius:4px; }
+  .tpl-viktor .cover-frame{ inset:14px; }
+
+  .ic-btn{ display:inline-block; text-align:center; margin-top:8px; padding:12px 26px; border:1px solid var(--gold); color:var(--gold); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; border-radius:2px; background:transparent; transition:.2s; }
   .ic-btn:hover{ background:rgba(212,175,55,.1); }
   .ic-btn.solid{ background:var(--gold); color:#171310; }
   .ic-btn.solid:hover{ background:var(--gold-soft); }
 
-  .ic-footer{ margin-top:26px; font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted-dim); }
-
-  /* Template variants */
-  .tpl-blossom .invite-card{ background:linear-gradient(180deg,#221513,#140d0c); border-color:rgba(212,175,55,0.3); }
-  .tpl-blossom .ic-eyebrow{ color:#dba463; }
-  .tpl-blossom .invite-card::before, .tpl-blossom .invite-card::after{ border-color:#dba463; }
-  .tpl-viktor .invite-card{ background:linear-gradient(180deg,#121214,#0b0b0d); }
-  .tpl-viktor .ic-names{ font-family:var(--font-display); font-style:normal; letter-spacing:0.02em; }
-  .tpl-viktor .invite-card{ border-width:1px; }
-
-  /* RSVP mini form (full mode) */
-  .rsvp-name{ width:100%; background:var(--void); border:1px solid var(--gold-line); color:var(--ivory);
-    padding:10px 12px; border-radius:2px; font-size:12.5px; margin-bottom:8px; text-align:center; }
-
   /* ============ FULL INVITATION VIEW ============ */
-  #inviteView{ display:none; min-height:100vh; background:var(--void); }
-  #inviteView .stage{ min-height:100vh; padding:40px 18px; }
   .back-to-builder{
     position:fixed; top:16px; inset-inline-start:16px; z-index:50;
     font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);
@@ -366,15 +303,9 @@
   }
   .back-to-builder:hover{ color:var(--gold); border-color:var(--gold); }
 
-  @media (max-width:480px){
-    .ic-names{ font-size:26px; }
-    .invite-card{ padding:28px 16px 22px; }
-  }
+  @media (max-width:480px){ .hero-names{ font-size:28px; } }
 
-  .footer-note{
-    max-width:1400px; margin:40px auto 0; padding:0 clamp(18px,4vw,48px) 40px;
-    color:var(--muted-dim); font-size:11px; text-align:center; letter-spacing:0.03em;
-  }
+  .footer-note{ max-width:1400px; margin:40px auto 0; padding:0 clamp(18px,4vw,48px) 40px; color:var(--muted-dim); font-size:11px; text-align:center; letter-spacing:0.03em; }
 </style>
 </head>
 <body dir="rtl">
@@ -519,7 +450,7 @@
             <span class="switch"><input type="checkbox" id="toggleDress" checked><span class="track"><span class="knob"></span></span></span>
           </label>
           <label class="toggle-row">
-            <span><span class="trow-label" data-i18n="toggleRsvp">تأكيد الحضور</span><br><span class="trow-sub" data-i18n="toggleRsvpSub">زر تأكيد عبر واتساب</span></span>
+            <span><span class="trow-label" data-i18n="toggleRsvp">تأكيد الحضور</span><br><span class="trow-sub" data-i18n="toggleRsvpSub">استمارة تأكيد داخل الدعوة</span></span>
             <span class="switch"><input type="checkbox" id="toggleRsvp" checked><span class="track"><span class="knob"></span></span></span>
           </label>
           <label class="toggle-row">
@@ -559,7 +490,7 @@
       <div class="preview-frame-label" data-i18n="previewLabel">معاينة حيّة — بحجم الهاتف</div>
       <div class="phone">
         <div class="phone-screen">
-          <div class="stage has-envelope" id="previewStage"></div>
+          <div class="stage" id="previewStage"></div>
         </div>
       </div>
     </div>
@@ -571,7 +502,7 @@
 <!-- ============ FULL INVITATION VIEW ============ -->
 <div id="inviteView">
   <a href="javascript:void(0)" class="back-to-builder" id="backToBuilder" data-i18n="backBtn">✕ العودة للمصمم</a>
-  <div class="stage stage-full has-envelope" id="fullStage"></div>
+  <div class="stage" id="fullStage"></div>
 </div>
 
 <script>
@@ -597,7 +528,7 @@
       toggleCountdown:"العدّ التنازلي", toggleCountdownSub:"إحصاء تنازلي مباشر حتى الموعد",
       toggleSchedule:"جدول الأوقات", toggleScheduleSub:"عرض توقيت كل فقرة من الحفل",
       toggleDress:"الزي المقترح", toggleDressSub:"إرشاد الضيوف حول اللباس",
-      toggleRsvp:"تأكيد الحضور", toggleRsvpSub:"زر تأكيد عبر واتساب",
+      toggleRsvp:"تأكيد الحضور", toggleRsvpSub:"استمارة تأكيد داخل الدعوة",
       toggleMap:"خريطة الموقع", toggleMapSub:"زر التوجّه عبر خرائط جوجل",
       dressCodeLbl:"وصف الزي المقترح", rsvpPhoneLbl:"رقم واتساب لتأكيد الحضور",
       generateBtn:"إنشاء الدعوة", shareLabel:"رابط الدعوة القابل للمشاركة", copyBtn:"نسخ",
@@ -622,7 +553,7 @@
       toggleCountdown:"Countdown Timer", toggleCountdownSub:"Live countdown to the event",
       toggleSchedule:"Schedule of Events", toggleScheduleSub:"Show timing for each part of the celebration",
       toggleDress:"Dress Code", toggleDressSub:"Guide guests on attire",
-      toggleRsvp:"RSVP Confirmation", toggleRsvpSub:"WhatsApp confirmation button",
+      toggleRsvp:"RSVP Confirmation", toggleRsvpSub:"In-page RSVP form",
       toggleMap:"Google Map Location", toggleMapSub:"Directions button to the venue",
       dressCodeLbl:"Dress Code Description", rsvpPhoneLbl:"WhatsApp number for RSVP",
       generateBtn:"Generate Invitation", shareLabel:"Shareable Invitation Link", copyBtn:"Copy",
@@ -647,7 +578,7 @@
       toggleCountdown:"Compte à rebours", toggleCountdownSub:"Compte à rebours en direct",
       toggleSchedule:"Programme de la soirée", toggleScheduleSub:"Afficher les horaires de chaque moment",
       toggleDress:"Code vestimentaire", toggleDressSub:"Guider les invités sur la tenue",
-      toggleRsvp:"Confirmation RSVP", toggleRsvpSub:"Bouton de confirmation via WhatsApp",
+      toggleRsvp:"Confirmation RSVP", toggleRsvpSub:"Formulaire RSVP intégré",
       toggleMap:"Localisation", toggleMapSub:"Bouton d'itinéraire vers le lieu",
       dressCodeLbl:"Description du code vestimentaire", rsvpPhoneLbl:"Numéro WhatsApp pour le RSVP",
       generateBtn:"Générer l'invitation", shareLabel:"Lien d'invitation à partager", copyBtn:"Copier",
@@ -657,31 +588,49 @@
     }
   };
 
-  /* Invitation content translations (for the invitation card itself) */
+  /* Invitation content translations */
   const T = {
-    ar:{ dir:"rtl", weddingEyebrow:"بحمد الله وتوفيقه", weddingTitle:"حفل زفاف", engagementTitle:"حفل خطوبة",
-      invitedTo:"يتشرف", and:"و", joinTitle:"بدعوتكم لمشاركة أسرتيهما فرحة", saveTheDate:"يتشرفان بدعوتكم",
+    ar:{ dir:"rtl", coverEyebrow:"دعوة خاصة", tapToOpen:"المسوا الختم لفتح الدعوة",
+      weddingEyebrow:"بحمد الله وتوفيقه", weddingTitle:"حفل زفاف", engagementTitle:"حفل خطوبة",
+      and:"و", bismillah:"بسم الله الرحمن الرحيم",
+      formalIntro:(s)=> `يسعد ${s.brideAr||s.brideLatin} و${s.groomAr||s.groomLatin} أن يدعواكم لمشاركتهما أجمل لحظات حياتهما، وذلك بحضوركم الكريم الذي يزيدنا شرفاً وسروراً.`,
       days:"يوم", hours:"ساعة", minutes:"دقيقة", seconds:"ثانية", countdownTitle:"يبدأ الاحتفال بعد",
       scheduleTitle:"جدول الحفل", ceremony:"العقد", reception:"الاستقبال", dinner:"العشاء", party:"السهرة",
-      dressTitle:"الزي المقترح", rsvpTitle:"تأكيد الحضور", rsvpNamePh:"اكتب اسمك هنا",
-      rsvpBtn:"تأكيد الحضور عبر واتساب", mapBtn:"عرض الموقع على الخريطة", tapToOpen:"المسوا الختم لفتح الدعوة",
-      footer:"بحضوركم تكتمل فرحتنا", rsvpMsg:"السلام عليكم، أؤكد حضوري لحفل"
+      locationTitle:"مكان الحفل", directionsBtn:"عرض الموقع على الخريطة",
+      dressTitle:"الزي المقترح",
+      rsvpTitle:"تأكيد الحضور", rsvpNameLbl:"الاسم الكامل", rsvpGuestsLbl:"عدد الأشخاص",
+      rsvpAttendLbl:"هل ستحضرون؟", rsvpYes:"نعم، سنحضر", rsvpNo:"نعتذر عن الحضور",
+      rsvpSubmit:"إرسال التأكيد", rsvpThanks:"شكراً لكم، تم تسجيل ردّكم بكل سرور ♥",
+      closingText:"بحضوركم تكتمل فرحتنا", closingSub:"Atelier Dawat",
+      rsvpMsgPrefix:"السلام عليكم، أؤكد حضوري لحفل"
     },
-    en:{ dir:"ltr", weddingEyebrow:"Together with their families", weddingTitle:"Wedding Celebration", engagementTitle:"Engagement Celebration",
-      invitedTo:"You are cordially invited", and:"&", joinTitle:"request the honor of your presence",
+    en:{ dir:"ltr", coverEyebrow:"A Private Invitation", tapToOpen:"Tap the seal to open",
+      weddingEyebrow:"Together with their families", weddingTitle:"Wedding Celebration", engagementTitle:"Engagement Celebration",
+      and:"&", bismillah:"",
+      formalIntro:(s)=> `${s.brideLatin||''} & ${s.groomLatin||''} joyfully invite you to share in the celebration of their new beginning. Your presence would mean the world to us.`,
       days:"Days", hours:"Hours", minutes:"Min", seconds:"Sec", countdownTitle:"Celebration begins in",
       scheduleTitle:"Order of the Day", ceremony:"Ceremony", reception:"Reception", dinner:"Dinner", party:"Party",
-      dressTitle:"Dress Code", rsvpTitle:"RSVP", rsvpNamePh:"Enter your name",
-      rsvpBtn:"Confirm via WhatsApp", mapBtn:"View Location on Map", tapToOpen:"Tap the seal to open",
-      footer:"Your presence is our greatest gift", rsvpMsg:"Hello, I confirm my attendance at the"
+      locationTitle:"Venue", directionsBtn:"View Location on Map",
+      dressTitle:"Dress Code",
+      rsvpTitle:"RSVP", rsvpNameLbl:"Full Name", rsvpGuestsLbl:"Number of Guests",
+      rsvpAttendLbl:"Will you attend?", rsvpYes:"Joyfully accept", rsvpNo:"Regretfully decline",
+      rsvpSubmit:"Send RSVP", rsvpThanks:"Thank you — your response has been noted with love ♥",
+      closingText:"Your presence is our greatest gift", closingSub:"Atelier Dawat",
+      rsvpMsgPrefix:"Hello, I confirm my attendance at the"
     },
-    fr:{ dir:"ltr", weddingEyebrow:"Avec leurs familles", weddingTitle:"Célébration de mariage", engagementTitle:"Célébration de fiançailles",
-      invitedTo:"Vous êtes cordialement invités", and:"&", joinTitle:"ont l'honneur de vous convier",
+    fr:{ dir:"ltr", coverEyebrow:"Une invitation privée", tapToOpen:"Touchez le sceau pour ouvrir",
+      weddingEyebrow:"Avec leurs familles", weddingTitle:"Célébration de mariage", engagementTitle:"Célébration de fiançailles",
+      and:"&", bismillah:"",
+      formalIntro:(s)=> `${s.brideLatin||''} & ${s.groomLatin||''} sont heureux de vous convier à célébrer avec eux ce moment unique. Votre présence sera notre plus beau cadeau.`,
       days:"Jours", hours:"Heures", minutes:"Min", seconds:"Sec", countdownTitle:"La célébration commence dans",
       scheduleTitle:"Déroulé de la soirée", ceremony:"Cérémonie", reception:"Réception", dinner:"Dîner", party:"Soirée",
-      dressTitle:"Code vestimentaire", rsvpTitle:"RSVP", rsvpNamePh:"Votre nom",
-      rsvpBtn:"Confirmer via WhatsApp", mapBtn:"Voir sur la carte", tapToOpen:"Touchez le sceau pour ouvrir",
-      footer:"Votre présence est notre plus beau cadeau", rsvpMsg:"Bonjour, je confirme ma présence à la"
+      locationTitle:"Lieu de réception", directionsBtn:"Voir sur la carte",
+      dressTitle:"Code vestimentaire",
+      rsvpTitle:"RSVP", rsvpNameLbl:"Nom complet", rsvpGuestsLbl:"Nombre de personnes",
+      rsvpAttendLbl:"Serez-vous présent(e) ?", rsvpYes:"Je serai présent(e)", rsvpNo:"Je ne pourrai pas être présent(e)",
+      rsvpSubmit:"Envoyer ma réponse", rsvpThanks:"Merci — votre réponse a été enregistrée avec plaisir ♥",
+      closingText:"Votre présence est notre plus beau cadeau", closingSub:"Atelier Dawat",
+      rsvpMsgPrefix:"Bonjour, je confirme ma présence à la"
     }
   };
 
@@ -709,128 +658,149 @@
     if(!iso) return '';
     const d = new Date(iso);
     if(isNaN(d)) return '';
-    try{
-      return d.toLocaleString(LOCALE_MAP[lang]||'en-GB', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' });
-    }catch(e){ return iso; }
+    try{ return d.toLocaleString(LOCALE_MAP[lang]||'en-GB', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }); }
+    catch(e){ return iso; }
   }
+  function mainTargetDate(s){ return s.ceremony || s.reception || s.dinner || s.party || ''; }
 
-  function mainTargetDate(s){
-    return s.ceremony || s.reception || s.dinner || s.party || '';
-  }
-
-  /* ===================== RENDER INVITATION HTML ===================== */
-  function renderInviteCardHTML(s, opts){
-    opts = opts || {};
+  /* ===================== BUILD SECTIONS ===================== */
+  function buildSectionsHTML(s){
     const t = T[s.lang] || T.ar;
-    const tpl = s.template === 'viktor' ? 'tpl-viktor' : 'tpl-blossom';
     const isWedding = s.eventType !== 'engagement';
     const title = isWedding ? t.weddingTitle : t.engagementTitle;
-
-    const nameLatinBlock = `<div class="ic-names">${esc(s.brideLatin)||'—'}<span class="amp">${t.and}</span>${esc(s.groomLatin)||'—'}</div>`;
-    const nameArBlock = (s.brideAr || s.groomAr) ? `<div class="ic-names-ar">${esc(s.brideAr)} ${s.brideAr&&s.groomAr?'&nbsp;&amp;&nbsp;':''} ${esc(s.groomAr)}</div>` : '';
-
+    const brideInit = ((s.brideLatin||'?')[0]||'?').toUpperCase();
+    const groomInit = ((s.groomLatin||'?')[0]||'?').toUpperCase();
     const targetDate = mainTargetDate(s);
+    const venueDateStr = fmtDate(targetDate, s.lang);
+
+    /* --- Cover --- */
+    const coverHTML = `
+      <section class="cover-sec" id="coverSec">
+        <div class="cover-frame"></div>
+        <div class="cover-eyebrow">${t.coverEyebrow}</div>
+        <div class="seal-big">${brideInit}&amp;${groomInit}</div>
+        <div class="cover-hint">${t.tapToOpen}</div>
+        <div class="particles-layer" id="particlesLayer"></div>
+      </section>`;
+
+    /* --- Hero --- */
     const countdownHTML = (s.toggles.countdown && targetDate) ? `
-      <div class="ic-section">
-        <div class="ic-section-title">${t.countdownTitle}</div>
-        <div class="ic-count" data-countdown="${esc(targetDate)}">
-          <div class="cbox"><span class="cnum" data-cd="d">00</span><span class="clabel">${t.days}</span></div>
-          <div class="cbox"><span class="cnum" data-cd="h">00</span><span class="clabel">${t.hours}</span></div>
-          <div class="cbox"><span class="cnum" data-cd="m">00</span><span class="clabel">${t.minutes}</span></div>
-          <div class="cbox"><span class="cnum" data-cd="s">00</span><span class="clabel">${t.seconds}</span></div>
-        </div>
+      <div class="ic-count" data-countdown="${esc(targetDate)}">
+        <div class="cbox"><span class="cnum" data-cd="d">00</span><span class="clabel">${t.days}</span></div>
+        <div class="cbox"><span class="cnum" data-cd="h">00</span><span class="clabel">${t.hours}</span></div>
+        <div class="cbox"><span class="cnum" data-cd="m">00</span><span class="clabel">${t.minutes}</span></div>
+        <div class="cbox"><span class="cnum" data-cd="s">00</span><span class="clabel">${t.seconds}</span></div>
       </div>` : '';
 
-    const scheduleRows = [
-      ['ceremony', t.ceremony, s.ceremony],
-      ['reception', t.reception, s.reception],
-      ['dinner', t.dinner, s.dinner],
-      ['party', t.party, s.party]
-    ].filter(r => r[2]);
-    const scheduleHTML = (s.toggles.schedule && scheduleRows.length) ? `
-      <div class="ic-section">
-        <div class="ic-section-title">${t.scheduleTitle}</div>
-        <div class="ic-schedule">
-          ${scheduleRows.map(r => `<div class="ic-sched-row"><span class="lbl">${r[1]}</span><span class="val">${fmtDate(r[2], s.lang)}</span></div>`).join('')}
-        </div>
-      </div>` : '';
-
-    const dressHTML = (s.toggles.dressCode && s.dressCode) ? `
-      <div class="ic-section">
-        <div class="ic-section-title">${t.dressTitle}</div>
-        <div class="ic-text">${esc(s.dressCode)}</div>
-      </div>` : '';
-
-    const rsvpMsg = encodeURIComponent(`${t.rsvpMsg} ${title} — ${s.brideLatin} ${t.and} ${s.groomLatin}`);
-    const rsvpHTML = (s.toggles.rsvp) ? `
-      <div class="ic-section">
-        <div class="ic-section-title">${t.rsvpTitle}</div>
-        ${s.rsvpPhone ? `<a class="ic-btn solid" target="_blank" rel="noopener" href="https://wa.me/${s.rsvpPhone.replace(/[^0-9]/g,'')}?text=${rsvpMsg}">${t.rsvpBtn}</a>`
-                       : `<div class="ic-text">${t.rsvpBtn}</div>`}
-      </div>` : '';
-
-    const mapHTML = (s.toggles.map && s.mapUrl) ? `
-      <div class="ic-section">
-        <a class="ic-btn" target="_blank" rel="noopener" href="${esc(s.mapUrl)}">${t.mapBtn}</a>
-      </div>` : '';
-
-    const venueDate = fmtDate(targetDate, s.lang);
-
-    return `
-      <div class="invite-card">
-        <div class="ic-eyebrow">${t.weddingEyebrow}</div>
-        ${nameLatinBlock}
-        ${nameArBlock}
-        <div class="ic-divider"></div>
-        <div class="ic-sub">${t.joinTitle}</div>
-        <div class="ic-venue">${esc(s.venue)||''}</div>
-        <div class="ic-date">${esc(s.city)||''}${s.city&&venueDate?' — ':''}${venueDate}</div>
+    const heroHTML = `
+      <section class="hero-sec">
+        <div class="hero-eyebrow">${t.weddingEyebrow}</div>
+        <div class="hero-names">${esc(s.brideLatin)||'—'}<span class="hn-amp">${t.and}</span>${esc(s.groomLatin)||'—'}</div>
+        ${(s.brideAr || s.groomAr) ? `<div class="hero-names-ar">${esc(s.brideAr)} ${esc(s.groomAr)? (s.lang==='ar'?' و ':' & '):''} ${esc(s.groomAr)}</div>` : ''}
+        <div class="flourish"></div>
+        ${venueDateStr ? `<div class="hero-date">${venueDateStr}</div>` : ''}
+        ${(s.venue||s.city) ? `<div class="hero-venue">${esc(s.venue)}${s.venue&&s.city?' — ':''}${esc(s.city)}</div>` : ''}
         ${countdownHTML}
-        ${scheduleHTML}
-        ${dressHTML}
-        ${rsvpHTML}
-        ${mapHTML}
-        <div class="ic-footer">${t.footer}</div>
-      </div>
-    `;
+        <div class="scroll-cue">↓</div>
+      </section>`;
+
+    /* --- Formal wording --- */
+    const formalHTML = `
+      <section class="formal-sec">
+        <div class="formal-frame">
+          ${(s.lang === 'ar' && t.bismillah) ? `<div class="bismillah">${t.bismillah}</div>` : ''}
+          <div class="formal-eyebrow">${title}</div>
+          <p class="formal-text">${esc(t.formalIntro(s))}</p>
+        </div>
+      </section>`;
+
+    /* --- Schedule --- */
+    const scheduleRows = [
+      [t.ceremony, s.ceremony], [t.reception, s.reception], [t.dinner, s.dinner], [t.party, s.party]
+    ].filter(r => r[1]);
+    const scheduleHTML = (s.toggles.schedule && scheduleRows.length) ? `
+      <section class="schedule-sec">
+        <div class="schedule-title">${t.scheduleTitle}</div>
+        <div class="schedule-list">
+          ${scheduleRows.map(r => `<div class="sched-row"><span class="lbl">${r[0]}</span><span class="val">${fmtDate(r[1], s.lang)}</span></div>`).join('')}
+        </div>
+      </section>` : '';
+
+    /* --- Location --- */
+    const locationHTML = (s.toggles.map && (s.venue || s.mapUrl)) ? `
+      <section class="location-sec">
+        <div class="pin"></div>
+        <div class="location-title">${t.locationTitle}</div>
+        <div class="location-venue">${esc(s.venue)||''}</div>
+        ${s.city ? `<div class="location-city">${esc(s.city)}</div>` : ''}
+        ${s.mapUrl ? `<a class="ic-btn solid" target="_blank" rel="noopener" href="${esc(s.mapUrl)}">${t.directionsBtn}</a>` : ''}
+      </section>` : '';
+
+    /* --- Dress code --- */
+    const dressHTML = (s.toggles.dressCode && s.dressCode) ? `
+      <section class="dress-sec">
+        <div class="dress-title">${t.dressTitle}</div>
+        <p class="dress-text">${esc(s.dressCode)}</p>
+      </section>` : '';
+
+    /* --- RSVP --- */
+    const rsvpHTML = (s.toggles.rsvp) ? `
+      <section class="rsvp-sec">
+        <div class="rsvp-title">${t.rsvpTitle}</div>
+        <form class="rsvp-form" id="rsvpForm" data-phone="${esc(s.rsvpPhone)}" data-event="${esc(title)}" data-msgprefix="${esc(t.rsvpMsgPrefix)}">
+          <input type="text" name="rsvpName" placeholder="${t.rsvpNameLbl}" required>
+          <input type="number" name="rsvpGuests" placeholder="${t.rsvpGuestsLbl}" min="1" value="1">
+          <div class="rsvp-attend">
+            <label><input type="radio" name="rsvpAttend" value="yes" checked><span>${t.rsvpYes}</span></label>
+            <label><input type="radio" name="rsvpAttend" value="no"><span>${t.rsvpNo}</span></label>
+          </div>
+          <button type="submit" class="ic-btn solid rsvp-submit">${t.rsvpSubmit}</button>
+          <div class="rsvp-thanks" id="rsvpThanks">${t.rsvpThanks}</div>
+        </form>
+      </section>` : '';
+
+    /* --- Closing --- */
+    const closingHTML = `
+      <section class="closing-sec">
+        <div class="closing-mark"></div>
+        <div class="closing-text">${t.closingText}</div>
+        <div class="closing-sub">${t.closingSub}</div>
+      </section>`;
+
+    const tplClass = s.template === 'viktor' ? 'tpl-viktor' : 'tpl-blossom';
+    return `
+      <div class="invite-scroll ${tplClass}" id="inviteScroll" dir="${t.dir}">
+        ${coverHTML}
+        <div class="pages">
+          ${heroHTML}${formalHTML}${scheduleHTML}${locationHTML}${dressHTML}${rsvpHTML}${closingHTML}
+        </div>
+      </div>`;
   }
 
-  function renderEnvelopeStage(container, s, opened){
-    const t = T[s.lang] || T.ar;
-    const tpl = s.template === 'viktor' ? 'tpl-viktor' : 'tpl-blossom';
-    container.className = 'stage has-envelope ' + tpl + (opened ? ' revealed' : '');
-    container.setAttribute('dir', t.dir);
+  function renderStage(container, s, keepOpen){
+    container.innerHTML = buildSectionsHTML(s);
+    const scrollEl = container.querySelector('#inviteScroll');
+    const cover = container.querySelector('#coverSec');
 
-    const initials = ((s.brideLatin||'?')[0]||'?').toUpperCase() + '&' + ((s.groomLatin||'?')[0]||'?').toUpperCase();
-
-    container.innerHTML = `
-      <div class="envelope-wrap${opened?' open':''}" id="envelopeWrap">
-        <div class="envelope">
-          <div class="card-peek"></div>
-          <div class="flap"></div>
-          <div class="seal">${initials}</div>
-          <div class="particles" id="particlesLayer"></div>
-        </div>
-        <div class="envelope-hint">${t.tapToOpen}</div>
-      </div>
-      <div id="cardSlot" style="width:100%; max-width:340px; margin:0 auto; ${opened?'':'display:none;'}"></div>
-    `;
-
-    const cardSlot = container.querySelector('#cardSlot');
-    cardSlot.innerHTML = renderInviteCardHTML(s);
-
-    const wrap = container.querySelector('#envelopeWrap');
-    wrap.addEventListener('click', function(){
-      if(wrap.classList.contains('open')) return;
-      wrap.classList.add('open');
+    function openInvitation(){
+      if(scrollEl.classList.contains('opened')) return;
+      cover.classList.add('breaking');
       burstParticles(container.querySelector('#particlesLayer'));
       setTimeout(() => {
-        cardSlot.style.display = 'block';
-        requestAnimationFrame(() => container.classList.add('revealed'));
-        wrap.style.display = 'none';
-      }, 550);
-    });
+        scrollEl.classList.add('opened');
+        requestAnimationFrame(() => {
+          scrollEl.scrollTo({ top: cover.offsetHeight, behavior:'smooth' });
+        });
+      }, 480);
+    }
+    cover.addEventListener('click', openInvitation);
+    if(keepOpen){
+      scrollEl.classList.add('opened');
+      cover.classList.add('breaking');
+      scrollEl.scrollTop = cover.offsetHeight;
+    }
 
+    bindRsvpForm(container, s);
     startCountdowns(container, s.lang);
   }
 
@@ -844,16 +814,42 @@
       const dist = 60 + Math.random()*70;
       p.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
       p.style.setProperty('--dy', Math.sin(angle)*dist - 40 + 'px');
-      p.style.left = '50%'; p.style.top = '42%';
+      p.style.left = '50%'; p.style.top = '38%';
       p.style.animationDelay = (Math.random()*0.15) + 's';
       layer.appendChild(p);
       setTimeout(() => p.remove(), 1600);
     }
   }
 
+  /* ===================== RSVP FORM ===================== */
+  function bindRsvpForm(scope, s){
+    const form = scope.querySelector('#rsvpForm');
+    if(!form) return;
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const name = form.rsvpName.value.trim();
+      if(!name) return;
+      const guests = form.rsvpGuests.value || '1';
+      const attend = form.rsvpAttend.value;
+      const phone = form.getAttribute('data-phone');
+      const eventName = form.getAttribute('data-event');
+      const prefix = form.getAttribute('data-msgprefix');
+      const t = T[s.lang] || T.ar;
+
+      if(phone){
+        const attendLabel = attend === 'yes' ? t.rsvpYes : t.rsvpNo;
+        const msg = encodeURIComponent(`${prefix} ${eventName} — ${name} (${guests}) — ${attendLabel}`);
+        window.open(`https://wa.me/${phone.replace(/[^0-9]/g,'')}?text=${msg}`, '_blank');
+      }
+      const thanks = scope.querySelector('#rsvpThanks');
+      if(thanks) thanks.classList.add('show');
+      form.querySelector('.rsvp-submit').setAttribute('disabled', 'true');
+    });
+  }
+
   /* ===================== COUNTDOWN ===================== */
   let countdownTimers = [];
-  function startCountdowns(scope, lang){
+  function startCountdowns(scope){
     countdownTimers.forEach(id => clearInterval(id));
     countdownTimers = [];
     const boxes = scope.querySelectorAll('[data-countdown]');
@@ -907,8 +903,8 @@
   function refreshPreview(){
     state = collectState();
     const stage = el('previewStage');
-    const wasOpen = !!stage.querySelector('.envelope-wrap.open');
-    renderEnvelopeStage(stage, state, wasOpen);
+    const wasOpen = !!stage.querySelector('.invite-scroll.opened');
+    renderStage(stage, state, wasOpen);
   }
 
   /* ===================== VALIDATION ===================== */
@@ -928,14 +924,8 @@
   }
 
   /* ===================== ENCODE / DECODE ===================== */
-  function encodeState(s){
-    const json = JSON.stringify(s);
-    return btoa(unescape(encodeURIComponent(json)));
-  }
-  function decodeState(str){
-    const json = decodeURIComponent(escape(atob(str)));
-    return JSON.parse(json);
-  }
+  function encodeState(s){ return btoa(unescape(encodeURIComponent(JSON.stringify(s)))); }
+  function decodeState(str){ return JSON.parse(decodeURIComponent(escape(atob(str)))); }
 
   /* ===================== UI WIRING ===================== */
   function setActive(groupSelector, target){
@@ -956,32 +946,24 @@
   }
 
   function initBuilder(){
-    // Template select
     document.querySelectorAll('.template-card').forEach(card => {
       card.addEventListener('click', () => { setActive('.template-card', card); refreshPreview(); });
     });
-    // Event type
     document.querySelectorAll('#eventTypeGroup .pill').forEach(p => {
       p.addEventListener('click', () => { setActive('#eventTypeGroup .pill', p); refreshPreview(); });
     });
-    // Invite language
     document.querySelectorAll('#inviteLangGroup .pill').forEach(p => {
       p.addEventListener('click', () => { setActive('#inviteLangGroup .pill', p); refreshPreview(); });
     });
-    // UI chrome language
     document.querySelectorAll('.lang-switch button').forEach(b => {
       b.addEventListener('click', () => applyUILang(b.getAttribute('data-uilang')));
     });
-    // Live inputs
     ['brideLatin','brideAr','groomLatin','groomAr','venue','city','ceremony','reception','dinner','party',
-     'mapUrl','dressCode','rsvpPhone'].forEach(id => {
-      el(id).addEventListener('input', refreshPreview);
-    });
+     'mapUrl','dressCode','rsvpPhone'].forEach(id => { el(id).addEventListener('input', refreshPreview); });
     ['toggleCountdown','toggleSchedule','toggleDress','toggleRsvp','toggleMap'].forEach(id => {
       el(id).addEventListener('change', refreshPreview);
     });
 
-    // Submit / generate
     el('builderForm').addEventListener('submit', function(ev){
       ev.preventDefault();
       const s = collectState();
@@ -993,12 +975,8 @@
       el('shareResult').classList.add('show');
       el('shareResult').scrollIntoView({behavior:'smooth', block:'nearest'});
 
-      // Open the finished invitation page directly for the user
       const newTab = window.open(url, '_blank');
-      if(!newTab){
-        // Popup blocked by the browser — fall back to navigating in the same tab
-        location.href = url;
-      }
+      if(!newTab){ location.href = url; }
     });
 
     el('copyLinkBtn').addEventListener('click', function(){
@@ -1022,7 +1000,7 @@
     document.body.setAttribute('dir', t.dir);
     document.body.style.fontFamily = s.lang === 'ar' ? "var(--font-ar-body)" : "var(--font-ui)";
     document.getElementById('backToBuilder').textContent = UI[s.lang==='ar'?'ar':(s.lang==='fr'?'fr':'en')].backBtn;
-    renderEnvelopeStage(el('fullStage'), s, false);
+    renderStage(el('fullStage'), s, false);
     el('backToBuilder').addEventListener('click', function(){
       history.replaceState(null, '', location.pathname);
       location.reload();
