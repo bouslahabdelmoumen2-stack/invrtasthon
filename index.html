@@ -171,6 +171,25 @@
   .btn-block{ width:100%; }
 
   .generate-box{ margin-top:8px; }
+  .pay-note{ font-size:10.5px; color:var(--muted); text-align:center; margin-top:10px; line-height:1.6; }
+  .pay-error{ display:none; margin-top:10px; border:1px solid var(--err); color:var(--err); background:rgba(199,98,62,0.08); border-radius:2px; padding:10px 12px; font-size:12px; line-height:1.7; }
+  .pay-error.show{ display:block; }
+  .pay-error a{ color:var(--gold); text-decoration:underline; }
+  #generateBtn[disabled]{ opacity:.6; cursor:not-allowed; }
+
+  .pay-overlay{
+    display:none; position:fixed; inset:0; z-index:200; background:rgba(10,9,8,0.92);
+    align-items:center; justify-content:center; backdrop-filter:blur(4px);
+  }
+  .pay-overlay.show{ display:flex; }
+  .pay-box{ text-align:center; padding:30px; }
+  .pay-spinner{
+    width:38px; height:38px; margin:0 auto 18px; border-radius:50%;
+    border:2px solid var(--gold-line); border-top-color:var(--gold);
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .pay-status{ font-size:13px; color:var(--ivory); letter-spacing:0.03em; max-width:280px; }
   .share-result{ margin-top:16px; border:1px solid var(--gold-line); border-radius:var(--radius); padding:16px; background:var(--void); display:none; }
   .share-result.show{ display:block; }
   .share-result .sr-label{ font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
@@ -548,6 +567,8 @@
 
       <div class="section-block generate-box">
         <button type="submit" class="btn btn-gold btn-block" id="generateBtn" data-i18n="generateBtn">إنشاء الدعوة</button>
+        <div class="pay-note" data-i18n="payNote">سيتم تحويلك لدفع 500 دج عبر Chargily Pay (وضع تجريبي) قبل الحصول على رابط الدعوة.</div>
+        <div class="pay-error" id="payError"></div>
 
         <div class="share-result" id="shareResult">
           <div class="sr-label" data-i18n="shareLabel">رابط الدعوة القابل للمشاركة</div>
@@ -561,6 +582,14 @@
         </div>
       </div>
     </form>
+
+    <!-- PAYMENT VERIFICATION OVERLAY -->
+    <div class="pay-overlay" id="payOverlay">
+      <div class="pay-box">
+        <div class="pay-spinner"></div>
+        <div class="pay-status" id="payStatus" data-i18n="payVerifying">جارٍ التحقق من عملية الدفع...</div>
+      </div>
+    </div>
 
     <!-- LIVE PREVIEW -->
     <div class="preview-col">
@@ -611,7 +640,12 @@
       generateBtn:"إنشاء الدعوة", shareLabel:"رابط الدعوة القابل للمشاركة", copyBtn:"نسخ",
       openPreviewBtn:"فتح المعاينة الكاملة", previewLabel:"معاينة حية للتصميم الحقيقي",
       footerNote:"Atelier Dawat — تُنشأ الدعوة بالكامل داخل متصفحك، ولا تُخزَّن بياناتكم على أي خادم.",
-      backBtn:"✕ العودة للمصمم", copiedMsg:"تم النسخ ✓"
+      backBtn:"✕ العودة للمصمم", copiedMsg:"تم النسخ ✓",
+      payNote:"سيتم تحويلك لدفع 500 دج عبر Chargily Pay (وضع تجريبي) قبل الحصول على رابط الدعوة.",
+      payRedirecting:"جارٍ تجهيز رابط الدفع...", payVerifying:"جارٍ التحقق من عملية الدفع...",
+      payFailedCreate:"تعذّر إنشاء رابط الدفع. تأكد من نشر الخادم المصغّر (api/create-checkout) ثم أعد المحاولة.",
+      payFailedVerify:"تعذّر تأكيد عملية الدفع. إن كنت قد دفعت فعلاً، تواصل معنا أو أعد المحاولة.",
+      payNotPaid:"لم تكتمل عملية الدفع بعد، حاول مجدداً."
     },
     en:{ brandSub:"Digital Invitation Studio", heroTitle:'Design your <em>luxury</em> digital invitation',
       heroSub:"Fill in your celebration details on the panel below, watch the live preview respond instantly, then generate an elegant link to share with your guests.",
@@ -636,7 +670,12 @@
       generateBtn:"Generate Invitation", shareLabel:"Shareable Invitation Link", copyBtn:"Copy",
       openPreviewBtn:"Open Full Preview", previewLabel:"Live Preview — Phone Size",
       footerNote:"Atelier Dawat — your invitation is generated entirely in your browser; no data is stored on any server.",
-      backBtn:"✕ Back to builder", copiedMsg:"Copied ✓"
+      backBtn:"✕ Back to builder", copiedMsg:"Copied ✓",
+      payNote:"You'll be redirected to pay 500 DZD via Chargily Pay (test mode) before getting your invitation link.",
+      payRedirecting:"Preparing your payment link...", payVerifying:"Verifying your payment...",
+      payFailedCreate:"Couldn't create the payment link. Make sure the serverless endpoint (api/create-checkout) is deployed, then try again.",
+      payFailedVerify:"Couldn't confirm your payment. If you already paid, please contact us or try again.",
+      payNotPaid:"Payment wasn't completed. Please try again."
     },
     fr:{ brandSub:"Studio d'invitations numériques", heroTitle:"Créez votre invitation numérique <em>de luxe</em>",
       heroSub:"Renseignez les détails de votre événement ci-dessous, observez l'aperçu s'actualiser en direct, puis générez un lien élégant à partager avec vos invités.",
@@ -661,7 +700,12 @@
       generateBtn:"Générer l'invitation", shareLabel:"Lien d'invitation à partager", copyBtn:"Copier",
       openPreviewBtn:"Ouvrir l'aperçu complet", previewLabel:"Aperçu en direct — format téléphone",
       footerNote:"Atelier Dawat — votre invitation est générée entièrement dans votre navigateur ; aucune donnée n'est stockée sur un serveur.",
-      backBtn:"✕ Retour à l'éditeur", copiedMsg:"Copié ✓"
+      backBtn:"✕ Retour à l'éditeur", copiedMsg:"Copié ✓",
+      payNote:"Vous serez redirigé pour payer 500 DZD via Chargily Pay (mode test) avant d'obtenir votre lien d'invitation.",
+      payRedirecting:"Préparation du lien de paiement...", payVerifying:"Vérification du paiement...",
+      payFailedCreate:"Impossible de créer le lien de paiement. Vérifiez que la fonction serveur (api/create-checkout) est déployée, puis réessayez.",
+      payFailedVerify:"Impossible de confirmer le paiement. Si vous avez déjà payé, contactez-nous ou réessayez.",
+      payNotPaid:"Le paiement n'a pas abouti. Merci de réessayer."
     }
   };
 
@@ -1069,15 +1113,7 @@
       ev.preventDefault();
       const s = collectState();
       if(!validate(s)) return;
-      const encoded = encodeState(s);
-      const url = location.origin + location.pathname + '?i=' + encoded;
-      el('shareLink').value = url;
-      el('openPreviewBtn').href = url;
-      el('shareResult').classList.add('show');
-      el('shareResult').scrollIntoView({behavior:'smooth', block:'nearest'});
-
-      const newTab = window.open(url, '_blank');
-      if(!newTab){ location.href = url; }
+      startChargilyCheckout(s);
     });
 
     el('copyLinkBtn').addEventListener('click', function(){
@@ -1090,6 +1126,100 @@
     });
 
     refreshPreview();
+  }
+
+  /* ===================== CHARGILY PAY (500 DZD, test mode) ===================== */
+  // IMPORTANT: the Chargily SECRET key must never live in this file — anything shipped to
+  // the browser can be read via "view source". It stays server-side inside the two small
+  // serverless functions in /api (api/create-checkout.js and api/verify-checkout.js),
+  // which this page calls over the network. See the README notes at the end of this file
+  // for how to deploy those two functions (Vercel free tier is a one-command deploy).
+  const PAY_AMOUNT_DZD = 500;
+
+  function setPayError(msg){
+    const box = el('payError');
+    if(!msg){ box.classList.remove('show'); box.textContent=''; return; }
+    box.textContent = msg;
+    box.classList.add('show');
+  }
+
+  async function startChargilyCheckout(s){
+    setPayError(null);
+    const btn = el('generateBtn');
+    btn.setAttribute('disabled', 'true');
+    const originalLabel = btn.textContent;
+    btn.textContent = UI[uiLang].payRedirecting;
+
+    const encoded = encodeState(s);
+    const successUrl = location.origin + location.pathname + '?paid=1&i=' + encoded;
+    const failureUrl = location.origin + location.pathname + '?paid=0';
+
+    try{
+      const res = await fetch('/api/create-checkout', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          amount: PAY_AMOUNT_DZD,
+          currency: 'dzd',
+          success_url: successUrl,
+          failure_url: failureUrl,
+          locale: s.lang || 'ar',
+          description: 'Atelier Dawat — ' + (s.brideLatin||'') + ' & ' + (s.groomLatin||'')
+        })
+      });
+      if(!res.ok) throw new Error('http_' + res.status);
+      const data = await res.json();
+      if(!data.checkout_url || !data.id) throw new Error('bad_response');
+
+      // Keep the checkout id so we can verify payment status server-side on return.
+      sessionStorage.setItem('chargilyCheckoutId', data.id);
+      location.href = data.checkout_url;
+    }catch(err){
+      setPayError(UI[uiLang].payFailedCreate);
+      btn.removeAttribute('disabled');
+      btn.textContent = originalLabel;
+    }
+  }
+
+  async function verifyPaymentAndReveal(encodedState){
+    const overlay = el('payOverlay');
+    const statusEl = el('payStatus');
+    overlay.classList.add('show');
+    statusEl.textContent = UI['ar'].payVerifying;
+
+    const checkoutId = sessionStorage.getItem('chargilyCheckoutId');
+    if(!checkoutId){
+      overlay.classList.remove('show');
+      history.replaceState(null, '', location.pathname);
+      applyUILang('ar'); initBuilder();
+      setPayError(UI['ar'].payFailedVerify);
+      return;
+    }
+
+    try{
+      const res = await fetch('/api/verify-checkout?id=' + encodeURIComponent(checkoutId));
+      if(!res.ok) throw new Error('http_' + res.status);
+      const data = await res.json();
+      overlay.classList.remove('show');
+      sessionStorage.removeItem('chargilyCheckoutId');
+
+      if(data.status === 'paid'){
+        // Payment confirmed server-side — clean the URL to the final shareable link and reveal it.
+        const cleanUrl = location.origin + location.pathname + '?i=' + encodedState;
+        history.replaceState(null, '', cleanUrl);
+        const s = decodeState(encodedState);
+        initInviteView(Object.assign(defaultState(), s));
+      } else {
+        history.replaceState(null, '', location.pathname);
+        applyUILang('ar'); initBuilder();
+        setPayError(UI['ar'].payNotPaid);
+      }
+    }catch(err){
+      overlay.classList.remove('show');
+      history.replaceState(null, '', location.pathname);
+      applyUILang('ar'); initBuilder();
+      setPayError(UI['ar'].payFailedVerify);
+    }
   }
 
   /* ===================== FULL INVITATION MODE ===================== */
@@ -1111,6 +1241,20 @@
   /* ===================== BOOT ===================== */
   function boot(){
     const params = new URLSearchParams(location.search);
+
+    if(params.get('paid') === '1' && params.has('i')){
+      applyUILang('ar');
+      document.getElementById('builderView').style.display = 'none';
+      verifyPaymentAndReveal(params.get('i'));
+      return;
+    }
+    if(params.get('paid') === '0'){
+      history.replaceState(null, '', location.pathname);
+      applyUILang('ar');
+      initBuilder();
+      setPayError(UI['ar'].payNotPaid);
+      return;
+    }
     if(params.has('i')){
       try{
         const s = decodeState(params.get('i'));
