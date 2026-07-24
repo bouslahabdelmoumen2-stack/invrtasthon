@@ -1116,7 +1116,7 @@
       ev.preventDefault();
       const s = collectState();
       if(!validate(s)) return;
-      goToChargilyPaymentLink(s);
+      startChargilyCheckout(s);
     });
 
     el('copyLinkBtn').addEventListener('click', function(){
@@ -1131,23 +1131,13 @@
     refreshPreview();
   }
 
-  /* ===================== CHARGILY PAY — static Test Payment Link (no backend) ===================== */
-  // 1) In your Chargily dashboard, switch to TEST mode → Payment Links → create a
-  //    500 DZD link once (no code involved, no secret key needed for this step).
-  // 2) Paste that link's URL below. It looks like:
-  //    https://pay.chargily.net/test/payment-links/xxxxxxxxxxxxxxxxxxxx
-  //
-  // NOTE ON SECURITY: a Payment Link is a fixed, pre-made URL — it can't carry your
-  // invitation's data or redirect back to a dynamic success page on its own, and there is
-  // no server here to confirm the payment actually happened. So this flow saves the
-  // invitation data locally (URL + localStorage) before leaving, and asks the person to
-  // confirm they paid when they come back. That confirmation is an honor-system click, not
-  // a verified payment — good enough for a personal/test project, but if you later want a
-  // real guarantee that no one can skip paying, you need a tiny server step (the
-  // api/create-checkout.js + api/verify-checkout.js pair from the previous version does
-  // that by checking the payment status directly with Chargily).
-  const CHARGILY_PAYMENT_LINK = 'https://pay.chargily.net/test/payment-links/REPLACE_WITH_YOUR_LINK_ID';
-  const PENDING_KEY = 'atelierDawat_pendingInvite';
+  /* ===================== CHARGILY PAY — real API-key checkout (Test mode) ===================== */
+  // The Chargily SECRET key must never live in this file — anything shipped to the browser
+  // can be read via "view source". It stays server-side inside the two small serverless
+  // functions in /api (api/create-checkout.js and api/verify-checkout.js), which this page
+  // calls over the network. Deploy those two files (e.g. on Vercel's free tier — no server
+  // to run or maintain) alongside this index.html. See README.md for the exact steps.
+  const PAY_AMOUNT_DZD = 500;
 
   function setPayError(msg){
     const box = el('payError');
@@ -1156,43 +1146,81 @@
     box.classList.add('show');
   }
 
-  function goToChargilyPaymentLink(s){
+  async function startChargilyCheckout(s){
     setPayError(null);
-
-    if(!CHARGILY_PAYMENT_LINK || CHARGILY_PAYMENT_LINK.indexOf('REPLACE_WITH_YOUR_LINK_ID') !== -1){
-      setPayError(UI[uiLang].payMissingLink);
-      return;
-    }
+    const btn = el('generateBtn');
+    btn.setAttribute('disabled', 'true');
+    const originalLabel = btn.textContent;
+    btn.textContent = UI[uiLang].payRedirecting;
 
     const encoded = encodeState(s);
+    const successUrl = location.origin + location.pathname + '?paid=1&i=' + encoded;
+    const failureUrl = location.origin + location.pathname + '?paid=0';
 
-    // Save the invitation data two ways so it survives the round trip to Chargily and back:
-    // in the URL of this tab (kept in browser history) and in localStorage as a fallback.
-    try{ localStorage.setItem(PENDING_KEY, encoded); }catch(e){ /* storage may be unavailable */ }
-    const pendingUrl = location.origin + location.pathname + '?pending=1&i=' + encoded;
-    history.replaceState(null, '', pendingUrl);
+    try{
+      const res = await fetch('/api/create-checkout', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          amount: PAY_AMOUNT_DZD,
+          currency: 'dzd',
+          success_url: successUrl,
+          failure_url: failureUrl,
+          locale: s.lang || 'ar',
+          description: 'Atelier Dawat — ' + (s.brideLatin||'') + ' & ' + (s.groomLatin||'')
+        })
+      });
+      if(!res.ok) throw new Error('http_' + res.status);
+      const data = await res.json();
+      if(!data.checkout_url || !data.id) throw new Error('bad_response');
 
-    location.href = CHARGILY_PAYMENT_LINK;
+      // Keep the checkout id so we can verify payment status server-side on return.
+      sessionStorage.setItem('chargilyCheckoutId', data.id);
+      location.href = data.checkout_url;
+    }catch(err){
+      setPayError(UI[uiLang].payFailedCreate);
+      btn.removeAttribute('disabled');
+      btn.textContent = originalLabel;
+    }
   }
 
-  function showPaymentGate(encodedState){
+  async function verifyPaymentAndReveal(encodedState){
     const overlay = el('payOverlay');
     overlay.classList.add('show');
 
-    el('payConfirmBtn').onclick = function(){
+    const checkoutId = sessionStorage.getItem('chargilyCheckoutId');
+    if(!checkoutId){
       overlay.classList.remove('show');
-      try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
-      const cleanUrl = location.origin + location.pathname + '?i=' + encodedState;
-      history.replaceState(null, '', cleanUrl);
-      const s = decodeState(encodedState);
-      initInviteView(Object.assign(defaultState(), s));
-    };
-
-    el('payCancelBtn').onclick = function(){
-      overlay.classList.remove('show');
-      try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
       history.replaceState(null, '', location.pathname);
-    };
+      applyUILang('ar'); initBuilder();
+      setPayError(UI['ar'].payFailedVerify);
+      return;
+    }
+
+    try{
+      const res = await fetch('/api/verify-checkout?id=' + encodeURIComponent(checkoutId));
+      if(!res.ok) throw new Error('http_' + res.status);
+      const data = await res.json();
+      overlay.classList.remove('show');
+      sessionStorage.removeItem('chargilyCheckoutId');
+
+      if(data.status === 'paid'){
+        // Payment confirmed server-side — clean the URL to the final shareable link and reveal it.
+        const cleanUrl = location.origin + location.pathname + '?i=' + encodedState;
+        history.replaceState(null, '', cleanUrl);
+        const s = decodeState(encodedState);
+        initInviteView(Object.assign(defaultState(), s));
+      } else {
+        history.replaceState(null, '', location.pathname);
+        applyUILang('ar'); initBuilder();
+        setPayError(UI['ar'].payNotPaid);
+      }
+    }catch(err){
+      overlay.classList.remove('show');
+      history.replaceState(null, '', location.pathname);
+      applyUILang('ar'); initBuilder();
+      setPayError(UI['ar'].payFailedVerify);
+    }
   }
 
   /* ===================== FULL INVITATION MODE ===================== */
@@ -1215,18 +1243,17 @@
   function boot(){
     const params = new URLSearchParams(location.search);
 
-    // Returning from the Chargily payment page (or reopening this tab) with a pending invite.
-    let pendingEncoded = null;
-    if(params.get('pending') === '1' && params.has('i')){
-      pendingEncoded = params.get('i');
-    } else if(!params.has('i')){
-      try{ pendingEncoded = localStorage.getItem(PENDING_KEY) || null; }catch(e){ pendingEncoded = null; }
+    if(params.get('paid') === '1' && params.has('i')){
+      applyUILang('ar');
+      document.getElementById('builderView').style.display = 'none';
+      verifyPaymentAndReveal(params.get('i'));
+      return;
     }
-
-    if(pendingEncoded){
+    if(params.get('paid') === '0'){
+      history.replaceState(null, '', location.pathname);
       applyUILang('ar');
       initBuilder();
-      showPaymentGate(pendingEncoded);
+      setPayError(UI['ar'].payNotPaid);
       return;
     }
 
